@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.PerspectiveCamera?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Sphere?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="545.0" prefWidth="791.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.PrimaryController">
+   <children>
+      <PerspectiveCamera fx:id="camera" layoutX="395.0" layoutY="272.0" onKeyTyped="#movement" />
+      <Sphere layoutX="168.0" layoutY="122.0" radius="50" />
+   </children>
+</Pane>
