@@ -35,6 +35,8 @@ public class Game extends Application {
 
     @Override
     public void start(@SuppressWarnings("exports") Stage primaryStage) {
+        // primaryStage.setFullScreen(true);
+        
 
         world = new Group();
         scene = new Scene(world, WIDTH, HEIGHT, true);
@@ -48,8 +50,9 @@ public class Game extends Application {
         player = new Player(camera, input);
         
         //creazione terreno
-        terrein = new Box(100, 1, 100);
-        terrein.setTranslateY(0); // Posiziona il terreno sotto il giocatore
+        terrein = new Box(150, 1, 150);
+        terrein.setTranslateY(-1); // Posiziona il terreno sotto il giocatore
+        
         terrein.setMaterial(new PhongMaterial(Color.GREEN)); // Colore verde per il terreno
 
         world.getChildren().addAll(player, terrein);
@@ -79,38 +82,6 @@ public class Game extends Application {
             }
         }, 0, FRAME_TIME);
     }
-
-
-    
-    
-    
-    
-
-    
-
-
-
-    // private void movePlayer(double direction) {
-    //     double playerDeltaX = Math.sin(Math.toRadians(playerRotateY)) * direction;
-    //     double playerDeltaZ = Math.cos(Math.toRadians(playerRotateY)) * direction;
-    //     double newX = playerX + playerDeltaX;
-    //     double newZ = playerZ + playerDeltaZ;
-
-    //     // Controllo per evitare che il giocatore esca dal terreno
-    //     if (Math.abs(newX) < 200 && Math.abs(newZ) < 200) {
-    //         playerX = newX;
-    //         playerZ = newZ;
-    //     }
-
-    //     updateCamera();
-    // }
-
-    // private void rotatePlayer(double direction) {
-    //     playerRotateY += direction * 5;
-    //     updateCamera();
-    // }
-
-    
 
     
 }
