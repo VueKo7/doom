@@ -3,6 +3,7 @@ package com.example;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Box;
+import javafx.geometry.Point3D;
 
 public class Player extends Box {
 
@@ -38,25 +39,15 @@ public class Player extends Box {
         this.camera.setFieldOfView(90);
         this.camera.setNearClip(0.1);
         this.camera.setFarClip(1000.0);
-        this.camera.setRotationAxis(Point3D.convertToJavaFXPoint3D(position));
-        this.setRotationAxis(Point3D.convertToJavaFXPoint3D(position));
+        
+        this.camera.setRotationAxis(position);
+        this.setRotationAxis(position);
     }
 
     
     public void update() 
     {
         handleInput(); //leggo l'input dell'utente e modifico Vector3D
-        
-        //lavoro sullo spostamento e modifico Point3D
-        
-        // if(!Double.isNaN(vector3d.getX()) && !Double.isNaN(vector3d.getY()) && !Double.isNaN(vector3d.getZ())) 
-        // {    
-        //     double angleRad = Math.toRadians(camera.getRotate());
-        //     double playerDeltaX = Math.sin(angleRad) * -1;
-        //     double playerDeltaZ = Math.cos(angleRad);
-        //     position.x += playerDeltaX + vector3d.x;
-        //     position.z += playerDeltaZ + vector3d.z;
-        // }
         updateMovement(); //applico il movimento al cubo    
         updateCamera(); //applico il movimento alla camera
     }
@@ -85,39 +76,41 @@ public class Player extends Box {
     //leggo le richieste dell'utente dal buffer
     private void handleInput()
     {
+        //prendo l'angolo di rotazione della camera e lo trasformo in movimento
         double angleRad = Math.toRadians(camera.getRotate());
-        double playerDeltaX = Math.sin(angleRad); // Movimento DESTRA && SINISTRA
-        double playerDeltaZ = Math.cos(angleRad); // Movimento AVANTI && INDIETRO
+        double playerDeltaX = 0; // Movimento DESTRA && SINISTRA -Math.sin(angleRad);
+        double playerDeltaZ = 0; // Movimento AVANTI && INDIETRO Math.cos(angleRad);
 
         // Fermo
-        double dX = playerDeltaX, dZ = playerDeltaZ;
+        // double dX = 0, dZ = 0;
 
         // Movimento
         if(input.getKeyState(KeyCode.W)) {
-            dZ = playerDeltaZ;
+            playerDeltaZ = Math.cos(angleRad);
+            playerDeltaX = -Math.sin(angleRad);
         }
         if(input.getKeyState(KeyCode.A)) {
-            dX = -playerDeltaX;
+            playerDeltaZ = -Math.sin(angleRad);
+            playerDeltaX = -Math.sin(angleRad +90);
         }
         if(input.getKeyState(KeyCode.S)) {
-            dZ = -playerDeltaZ;
+            playerDeltaZ = -Math.cos(angleRad);
+            playerDeltaX = Math.sin(angleRad);
         }
         if(input.getKeyState(KeyCode.D)) {
-            dX = playerDeltaX;
+            playerDeltaZ = Math.sin(angleRad);
+            playerDeltaX = -Math.sin(angleRad -90);
         }
 
-        position.x += dX;
-        position.z += dZ;
+        
+        position = position.add(playerDeltaX, 0, playerDeltaZ); 
 
         //prendo la rotazione richiesta
         rotation = input.getRotation();
-
-        vector3d.setValues(dX, 0, dZ);
-        vector3d.normalize();
-        vector3d.multiply(speed);
-        
     }
-
+// vector3d.setValues(dX, 0, dZ);
+        // vector3d.normalize();
+        // vector3d.multiply(speed);
 
 
 }
