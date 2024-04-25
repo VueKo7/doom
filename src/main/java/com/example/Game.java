@@ -17,26 +17,26 @@ public class Game extends Application {
     }
 
     private Timer timer;
-    private static final int FPS = 30; // Frame per secondo
+    private static final int FPS = 60; // Frame per secondo
     private static final long FRAME_TIME = 1000 / FPS; // Tempo in millisecondi per frame
 
 
     private static final double WIDTH = 1280;
     private static final double HEIGHT = 720;
     
+    private Weapon weapon;
     private PerspectiveCamera camera;
     private Group world;
     private Scene scene;
     private Player player;
     private Box terrein;
     private HandleInput input;
-    
 
+    //TODO IMPOSTARE UNA CLASSE MAPPA PER GLI ELEMENTI Terrein e World
 
     @Override
     public void start(@SuppressWarnings("exports") Stage primaryStage) {
         // primaryStage.setFullScreen(true);
-        
 
         world = new Group();
         scene = new Scene(world, WIDTH, HEIGHT, true);
@@ -44,18 +44,20 @@ public class Game extends Application {
 
         //creazione player e aggiunta camera alla scena
         camera = new PerspectiveCamera(true);
-        scene.setCamera(camera);
+        scene.setCamera(camera); //aggiungo la camera alla scena
 
         input = new HandleInput(scene);
-        player = new Player(camera, input);
+        weapon = new Weapon(15);
+        player = new Player(camera, input, weapon);
+        
         
         //creazione terreno
         terrein = new Box(150, 1, 150);
         terrein.setTranslateY(-1); // Posiziona il terreno sotto il giocatore
-        
         terrein.setMaterial(new PhongMaterial(Color.GREEN)); // Colore verde per il terreno
 
-        world.getChildren().addAll(player, terrein);
+        //aggiungo gli elementi 3D all'ambiente
+        world.getChildren().addAll(player, terrein, weapon);
 
         primaryStage.setTitle("First Person Camera");
         primaryStage.setScene(scene);
@@ -66,7 +68,8 @@ public class Game extends Application {
         start();
 
         //chiusura programma
-        primaryStage.setOnCloseRequest(event -> {
+        primaryStage.
+        setOnCloseRequest(event -> {
             System.exit(0);
         });
     }
