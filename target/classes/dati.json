@@ -1,0 +1,78 @@
+{
+    "pareti":[{
+        "tipo": "box",
+        "dimensioni": {
+        "larghezza": 200,
+        "altezza": 300,
+        "profondità": 50
+    },
+    "posizione": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+            },
+    "colore": "#996633"
+        },
+    {
+        "tipo":"box",
+        "dimensioni":{
+            "larghezza":200,
+            "altezza":300,
+            "profondità":200
+        },
+        "posizione":{
+            "x":100,
+            "y":0,
+            "z":100
+        },
+        "colore":"#990000"
+    },
+    {
+        "tipo":"box",
+        "dimensioni":{
+            "larghezza":100,
+            "altezza":200,
+            "profondità":300
+        },
+        "posizione":{
+            "x":100,
+            "y":0,
+            "z":100
+        },
+        "colore":"993333"
+    }],
+        "soffitto":{
+            "tipo":"box",
+            "dimensioni":{
+                "larghezza":1000,
+                "altezza":0,
+                "profondità":0
+            },
+            "posizione":{
+                "x":0,
+                "y":200,
+                "z":0
+            },
+            "colore":"#666699"
+        },
+    "giocatore":{ 
+    "hp": 100
+    },
+    "nemico":[{
+        "hp": 50,
+        "danni": 20
+    }],
+    "fucile":{
+        "danni": 35,
+        "proiettili": 5,
+        "ricarica": 3
+    },
+    "boss":{
+        "hp": 125,
+        "danni": 50
+    }
+}     
+    
+    
+
+
