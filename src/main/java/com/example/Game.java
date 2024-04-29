@@ -29,7 +29,6 @@ public class Game extends Application {
     private Group world;
     private Scene scene;
     private Player player;
-    private Box terrein;
     private HandleInput input;
 
     //TODO IMPOSTARE UNA CLASSE MAPPA PER GLI ELEMENTI Terrein e World
@@ -38,7 +37,7 @@ public class Game extends Application {
     public void start(@SuppressWarnings("exports") Stage primaryStage) {
         // primaryStage.setFullScreen(true);
 
-        world = new Group();
+        world = new Mappa("livello1.txt");
         scene = new Scene(world, WIDTH, HEIGHT, true);
         scene.setFill(Color.LIGHTBLUE);
 
@@ -51,13 +50,8 @@ public class Game extends Application {
         player = new Player(camera, input, weapon);
         
         
-        //creazione terreno
-        terrein = new Box(150, 1, 150);
-        terrein.setTranslateY(-1); // Posiziona il terreno sotto il giocatore
-        terrein.setMaterial(new PhongMaterial(Color.GREEN)); // Colore verde per il terreno
-
-        //aggiungo gli elementi 3D all'ambiente
-        world.getChildren().addAll(player, terrein, weapon);
+        //aggiungo il player all'ambiente
+        world.getChildren().addAll(player,  weapon);
 
         primaryStage.setTitle("First Person Camera");
         primaryStage.setScene(scene);
