@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 
+
 public class Mappa extends Group {
 
     public final int WIDTH = 20;
@@ -19,23 +20,9 @@ public class Mappa extends Group {
 
     public Mappa(String nomeLvl) {
 
-        // material = new PhongMaterial();
-        // material.setDiffuseMap(new Image(getClass().getResourceAsStream("/textures/floor.jpg")));
-
-        // for(int i = 0; i < 20; i++) {
-        //     for(int j = 0; j < 20; j++) {
-        //         //creazione terreno
-        //         box = new Box(5, 1, 5);
-        //         box.setTranslateY(-1); // Posiziona il terreno sotto il giocatore
-        //         box.setTranslateX(i*5 -35); //poszione in X
-        //         box.setTranslateZ(j*5 -5); //posizione in Y
-
-        //         box.setMaterial(material);
-                
-        //         getChildren().addAll(box);
-        //     }
-        // }
         loadLvl(nomeLvl);
+        
+        
     }
     
 
@@ -43,7 +30,7 @@ public class Mappa extends Group {
 
         try {
             //lettura da file
-            Scanner scanner = new Scanner(new FileInputStream("C:\\Users\\gabri\\Desktop\\repos\\doom\\mappa.txt"));
+            Scanner scanner = new Scanner(getClass().getResourceAsStream(nomeLvl));
 
             //carico tutta la matrice da file
             char[][] matrix = new char[WIDTH][HEIGHT];
@@ -55,7 +42,7 @@ public class Mappa extends Group {
             }
 
             //quando leggo 0 creo una Box(5, 1, 5) texture:floor.jpg
-            //quando leggo 1 creo una Box(5, 10, 5) texture:wall.jpg
+            //quando leggo 1 creo una Box(5, 5, 5) texture:wall.jpg
 
             for(int i = 0; i < HEIGHT; i++) {
                 for(int j = 0; j < WIDTH; j++) {
@@ -66,38 +53,40 @@ public class Mappa extends Group {
 
                         //crezione terreno
                         box = new Box(5, 1, 5); //dimensioni X:5 Y:1 Z:5
-                        box.setTranslateY(-1); // Posiziona il terreno sotto il giocatore
+                        box.setId("0");
+                        box.setTranslateY(+1); // Posiziona il terreno sotto il giocatore
                         box.setTranslateX(i*5 -35); //poszione in X
                         box.setTranslateZ(j*5 -5); //posizione in Y
 
                         box.setMaterial(material);
 
                         //aggiungo la box all'ambiente 3D
-                        getChildren().addAll(box);
+                        getChildren().add(box);
 
                     } else {
                         //impostazione texture
                         material = new PhongMaterial();
                         material.setDiffuseMap(new Image(getClass().getResourceAsStream("/textures/wall.jpg")));
 
+                        //creo più blocchi impilati
                         for(int y = 0; y <= 10; y+=5) {
                             //crezione muro
                             box = new Box(5, 5, 5); //dimensioni X:5 Y:10 Z:5
-                            box.setTranslateY(-y); // Posiziona il terreno sotto il giocatore
+                            box.setId("1");
+                            box.setTranslateY(-y); // posizioni i blocchi sopra il terreno ogni -5
                             box.setTranslateX(i*5 -35); //poszione in X
                             box.setTranslateZ(j*5 -5); //posizione in Y
 
                             box.setMaterial(material);
 
                             //aggiungo la box all'ambiente 3D
-                            getChildren().addAll(box);
+                            getChildren().add(box);
                         }
-
                     }
-                    
-                }
-            }
+                } 
+            }   //fine crezione Boxes
 
+            //fine lettura
             scanner.close();
 
         } catch (Exception e) {
@@ -105,4 +94,8 @@ public class Mappa extends Group {
         }
         
     }
+
+
+    
+    
 }

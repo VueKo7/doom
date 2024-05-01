@@ -6,6 +6,7 @@ import java.util.TimerTask;
 import javafx.application.Application;
 import javafx.scene.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Box;
 import javafx.stage.Stage;
 
 public class Game extends Application {
@@ -15,7 +16,7 @@ public class Game extends Application {
     }
 
     private Timer timer;
-    private static final int FPS = 40; // Frame per secondo
+    private static final int FPS = 34; // Frame per secondo
     private static final long FRAME_TIME = 1000 / FPS; // Tempo in millisecondi per frame
 
 
@@ -24,7 +25,7 @@ public class Game extends Application {
     
     private Weapon weapon;
     private PerspectiveCamera camera;
-    private Group world;
+    private static Mappa world;
     private Scene scene;
     private Player player;
     private HandleInput input;
@@ -35,7 +36,7 @@ public class Game extends Application {
         // primaryStage.setFullScreen(true);
 
         world = new Mappa("/mappa.txt");
-        scene = new Scene(world, WIDTH, HEIGHT, true);
+        scene = new Scene(world, WIDTH, HEIGHT, true, SceneAntialiasing.BALANCED);
         scene.setFill(Color.LIGHTBLUE);
 
         //creazione player e aggiunta camera alla scena
@@ -45,12 +46,14 @@ public class Game extends Application {
         input = new HandleInput(scene);
         weapon = new Weapon(15);
         player = new Player(camera, input, weapon);
-        
+
+        player.setId("player");
+        weapon.setId("weapon");
         
         //aggiungo il player all'ambiente
         world.getChildren().addAll(player, weapon);
 
-        primaryStage.setTitle("First Person Camera");
+        primaryStage.setTitle("DOOM");
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -71,11 +74,14 @@ public class Game extends Application {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                // Qui si aggiorna e si disegna il gioco
+                // aggiornamento singoli elementi
                 player.update();
             }
         }, 0, FRAME_TIME);
     }
 
+    public static Mappa getWorld() {
+        return world;
+    }
     
 }

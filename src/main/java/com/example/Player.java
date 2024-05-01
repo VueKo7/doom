@@ -3,15 +3,14 @@ package com.example;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Box;
-import javafx.scene.transform.Rotate;
 import javafx.geometry.Point3D;
 
 public class Player extends Box {
 
     //forma
-    private static final double HEIGHT = 40;
-    private static final double WIDTH = 20;
-    private static final double DEPTH = 20;
+    private static final double HEIGHT = 5;
+    private static final double WIDTH = 2;
+    private static final double DEPTH = 2;
 
     //attributi
     private HandleInput input;
@@ -48,6 +47,7 @@ public class Player extends Box {
         //settaggio arma
         this.weapon.setTranslateY(-4.599);
         weapon.setRotationAxis(position);
+
     }
 
     
@@ -86,8 +86,8 @@ public class Player extends Box {
     
 
     //leggo le richieste dell'utente dal buffer
-    private void handleInput()
-    {
+    private void handleInput() {
+
         //prendo la rotazione richiesta
         rotation = input.getRotation();
 
@@ -98,22 +98,81 @@ public class Player extends Box {
         vector3d = new Vector3D();
 
         // Movimento
-        if(input.getKeyState(KeyCode.W)) {
+        if(input.getKeyState(KeyCode.W)) { //movimento in Z+
             vector3d = vector3d.add(-Math.sin(angleRad), 0, Math.cos(angleRad));
         }
-        if(input.getKeyState(KeyCode.A)) {
+        if(input.getKeyState(KeyCode.A)) { //movimento in X-
             vector3d = vector3d.add(-Math.sin(angleRad +90), 0, -Math.sin(angleRad));
         }
-        if(input.getKeyState(KeyCode.S)) {
+        if(input.getKeyState(KeyCode.S)) {  //movimento in Z-
             vector3d = vector3d.add(Math.sin(angleRad), 0, -Math.cos(angleRad));
         }
-        if(input.getKeyState(KeyCode.D)) {
+        if(input.getKeyState(KeyCode.D)) { //movimento in X+
             vector3d = vector3d.add(-Math.sin(angleRad -90), 0, Math.sin(angleRad));
         }
 
+
+        
+
+        //controllo che nella direzione richiesta non ci siano muri, solo alla richiesta di input
+        if(input.getKeyState(KeyCode.W) || input.getKeyState(KeyCode.A) || input.getKeyState(KeyCode.S) || input.getKeyState(KeyCode.D)) {
+            
+            //iterazione per tutti gli elementi, muri e pavimenti
+            Game.getWorld().getChildren().forEach(wall -> {
+
+                //filtro per muri (id == 1)
+                if(wall.getId().equals("1")) {
+                    
+                    //controllo la collisione con un muro nella direzione richiesta
+                    boolean xCollision = collisionX((Box)wall, vector3d.getX());
+                    boolean zCollision = collisionZ((Box)wall, vector3d.getZ());
+
+                    //controllo che la collisione avvenga con l'oggetto per entrambe le coordinate
+                    if(zCollision && xCollision) {      
+                        //controlla se alle sue spalle ha un ostacolo
+                        xCollision = collisionX((Box)wall, -vector3d.getX());
+                        zCollision = collisionZ((Box)wall, -vector3d.getZ());
+                        
+                        //impone che tu NON abbia un'ostacolo a destra/sinistra per fermarti in X
+                        if(!xCollision) vector3d.x = 0;
+                        
+                        //impone che tu NON abbia un'ostacolo avanti/dietro per fermarti in Z
+                        if(!zCollision) vector3d.z = 0;
+                    }
+                } 
+            });
+        } //fine check collisioni
+        
         //aggiorno la posizione
         position = position.add(vector3d.getX(), vector3d.getY(), vector3d.getZ()); 
     }
+
+
+
+        //COLLISIONI
+//************************************************************* */
+    public boolean collisionX(@SuppressWarnings("exports") Box wall, double dX) {
+
+        double observerX = getTranslateX();
+        double observerWidth = 3;
+
+        double entityX = wall.getTranslateX();
+        double entityWidth = 5;
+
+        return (observerX+observerWidth+dX >= entityX && observerX+dX <= entityX+entityWidth); 
+    }
+
+    public boolean collisionZ(@SuppressWarnings("exports") Box wall, double dY) {
+
+        double observerZ = getTranslateZ();
+        double observerHeight = 3;
+
+        double entityZ = wall.getTranslateZ();
+        double entityHeight = 5;
+
+        return (observerZ+observerHeight+dY >= entityZ && observerZ+dY <= entityZ+entityHeight); 
+    }
+//********************************************************* */
 
 
 }
