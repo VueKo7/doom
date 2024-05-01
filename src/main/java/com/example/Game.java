@@ -6,8 +6,6 @@ import java.util.TimerTask;
 import javafx.application.Application;
 import javafx.scene.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.*;
 import javafx.stage.Stage;
 
 public class Game extends Application {
@@ -31,13 +29,12 @@ public class Game extends Application {
     private Player player;
     private HandleInput input;
 
-    //TODO IMPOSTARE UNA CLASSE MAPPA PER GLI ELEMENTI Terrein e World
 
     @Override
     public void start(@SuppressWarnings("exports") Stage primaryStage) {
         // primaryStage.setFullScreen(true);
 
-        world = new Mappa("livello1.txt");
+        world = new Mappa("/mappa.txt");
         scene = new Scene(world, WIDTH, HEIGHT, true);
         scene.setFill(Color.LIGHTBLUE);
 
@@ -51,7 +48,7 @@ public class Game extends Application {
         
         
         //aggiungo il player all'ambiente
-        world.getChildren().addAll(player,  weapon);
+        world.getChildren().addAll(player, weapon);
 
         primaryStage.setTitle("First Person Camera");
         primaryStage.setScene(scene);
