@@ -41,20 +41,22 @@ public class Player extends Box {
 
         //settaggio camera
         this.camera.setTranslateY(position.getY());
-        this.camera.setFieldOfView(90);
+        this.camera.setFieldOfView(70);
         this.camera.setNearClip(0.1);
         this.camera.setFarClip(1000.0);
         this.camera.setRotationAxis(position);
 
         //settaggio arma
-        this.weapon.setTranslateY(-4.599);
-        weapon.setRotationAxis(position);
-
+        
+        Point3D weaponPosition = new Point3D(0, -0.5, 0);
+        this.weapon.setTranslateY(-4.65);
+        this.weapon.setRotationAxis(position);
+        this.weapon.setPosition(weaponPosition);
     }
 
     
     public void update() {
-        handleInput();          //leggo l'input dell'utente e modifico Vector3D
+        handleInput();          //leggo l'input dell'utente e modifico la posizione
         updateMovement();       //aggiornamento player
         updateCamera();         //aggiornamento camera
         updateWeapon();         //aggiornamento arma
@@ -70,11 +72,12 @@ public class Player extends Box {
     }
 
     private void updateWeapon() {
+        weapon.setPosition(weapon.getPosition().add(position));
         //sposto la hitbox
-        weapon.setTranslateX(position.getX());
-        weapon.setTranslateZ(position.getZ());
+        weapon.setTranslateX(weapon.getPosition().getX() + 0.1);
+        weapon.setTranslateZ(weapon.getPosition().getZ());
         //imposto la rotazione
-        weapon.setRotate(rotation + rotation/6);
+        weapon.setRotate(rotation);
     }
 
     private void updateCamera() {
@@ -113,8 +116,6 @@ public class Player extends Box {
             vector3d = vector3d.add(-Math.sin(angleRad -90), 0, Math.sin(angleRad));
         }
 
-
-        
 
         //controllo che nella direzione richiesta non ci siano muri, solo alla richiesta di input
         if(input.getKeyState(KeyCode.W) || input.getKeyState(KeyCode.A) || input.getKeyState(KeyCode.S) || input.getKeyState(KeyCode.D)) {
@@ -176,8 +177,13 @@ public class Player extends Box {
     }
 
     //Metodo getter della posizione
+    @SuppressWarnings("exports")
     public Point3D getPosition() {
         return position;
+    }
+
+    public void setPosition(@SuppressWarnings("exports") Point3D position) {
+        this.position = position;
     }
 
     //Metodo getter dei punti vita

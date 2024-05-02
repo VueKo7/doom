@@ -1,6 +1,7 @@
 package com.example;
 
-import javafx.scene.paint.Color;
+import javafx.geometry.Point3D;
+import javafx.scene.image.Image;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 
@@ -13,6 +14,7 @@ public class Weapon extends Box {
 
     //risorsa
     private int bullets;
+    private Point3D position;
 
 
     public Weapon(int bullets) {
@@ -20,12 +22,14 @@ public class Weapon extends Box {
         this.bullets = bullets; //proiettili iniziali
 
         //init for shotgun
-        setMaterial(new PhongMaterial(Color.RED));
+        PhongMaterial pm = new PhongMaterial();
+        pm.setDiffuseMap(new Image(getClass().getResourceAsStream("/textures/shotgun.png")));
+        setMaterial(pm);
 
         //movimento
         setOnRotate(event -> {
-            setTranslateX(getTranslateX());
-            setTranslateZ(getTranslateZ());
+            setTranslateX(position.getX() + 0.1);
+            setTranslateZ(position.getZ());
         });
     }
 
@@ -36,5 +40,13 @@ public class Weapon extends Box {
 
     public void shoot() {
         this.bullets--;
+    }
+
+    public void setPosition(@SuppressWarnings("exports") Point3D position) {
+        this.position = position;
+    }
+    @SuppressWarnings("exports")
+    public Point3D getPosition() {
+        return position;
     }
 }

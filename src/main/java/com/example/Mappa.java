@@ -40,6 +40,9 @@ public class Mappa extends Group {
                 }
             }
 
+            //fine lettura
+            scanner.close();
+
             //quando leggo 0 creo una Box(5, 1, 5) texture:floor.jpg
             //quando leggo 1 creo una Box(5, 5, 5) texture:wall.jpg
 
@@ -81,12 +84,10 @@ public class Mappa extends Group {
                             //aggiungo la box all'ambiente 3D
                             getChildren().add(box);
                         }
+
                     }
                 } 
             }   //fine crezione Boxes
-
-            //fine lettura
-            scanner.close();
 
         } catch (Exception e) {
             e.printStackTrace();
