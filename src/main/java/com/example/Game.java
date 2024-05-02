@@ -28,6 +28,7 @@ public class Game extends Application {
     private Scene scene;
     private Player player;
     private HandleInput input;
+    private Mostro mostro;
 
 
     @Override
@@ -45,12 +46,14 @@ public class Game extends Application {
         input = new HandleInput(scene);
         weapon = new Weapon(15);
         player = new Player(camera, input, weapon);
+        mostro = new Mostro(player, 2,5,2, 0.1, 100, 30, -5, 30);
 
         player.setId("player");
         weapon.setId("weapon");
         
-        //aggiungo il player all'ambiente
+        //aggiungo il player, l'arma e il mostro all'ambiente
         world.getChildren().addAll(player, weapon);
+        world.getChildren().add(mostro);
 
         primaryStage.setTitle("DOOM");
         primaryStage.setScene(scene);
@@ -75,6 +78,7 @@ public class Game extends Application {
             public void run() {
                 // aggiornamento singoli elementi
                 player.update();
+                mostro.update();
             }
         }, 0, FRAME_TIME);
     }

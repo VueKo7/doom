@@ -19,6 +19,7 @@ public class Player extends Box {
     private Point3D position;
     private Vector3D vector3d;
     private double rotation;
+    private int puntiVita = 100;
 
     
     // Costruttore 
@@ -53,10 +54,10 @@ public class Player extends Box {
 
     
     public void update() {
-        handleInput(); //leggo l'input dell'utente e modifico Vector3D
-        updateMovement(); //aggiornamento player    
-        updateCamera(); //aggiornamento camera
-        updateWeapon(); //aggiornamento arma
+        handleInput();          //leggo l'input dell'utente e modifico Vector3D
+        updateMovement();       //aggiornamento player
+        updateCamera();         //aggiornamento camera
+        updateWeapon();         //aggiornamento arma
     }
 
     private void updateMovement() {
@@ -173,6 +174,22 @@ public class Player extends Box {
 
         return (observerZ+observerHeight+dY >= entityZ && observerZ+dY <= entityZ+entityHeight); 
     }
+
+    //Metodo getter della posizione
+    public Point3D getPosition() {
+        return position;
+    }
+
+    //Metodo getter dei punti vita
+    public int getPuntiVita() {
+        return puntiVita;
+    }
+
+    //Metodo setter dei puntiVita
+    public void setPuntiVita (int vitaRimasta){
+        this.puntiVita = vitaRimasta;
+    }
+
 //********************************************************* */
 
 
