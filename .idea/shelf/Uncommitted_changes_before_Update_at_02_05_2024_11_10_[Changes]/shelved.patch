@@ -1,0 +1,198 @@
+Index: src/main/java/com/example/Game.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example;\r\n\r\nimport java.util.Timer;\r\nimport java.util.TimerTask;\r\n\r\nimport javafx.application.Application;\r\nimport javafx.scene.*;\r\nimport javafx.scene.paint.Color;\r\nimport javafx.scene.shape.Box;\r\nimport javafx.stage.Stage;\r\n\r\npublic class Game extends Application {\r\n\r\n    public static void main(String[] args) {\r\n        launch(args);\r\n    }\r\n\r\n    private Timer timer;\r\n    private static final int FPS = 34; // Frame per secondo\r\n    private static final long FRAME_TIME = 1000 / FPS; // Tempo in millisecondi per frame\r\n\r\n\r\n    private static final double WIDTH = 1280;\r\n    private static final double HEIGHT = 720;\r\n    \r\n    private Weapon weapon;\r\n    private PerspectiveCamera camera;\r\n    private static Mappa world;\r\n    private Scene scene;\r\n    private Player player;\r\n    private HandleInput input;\r\n\r\n\r\n    @Override\r\n    public void start(@SuppressWarnings(\"exports\") Stage primaryStage) {\r\n        // primaryStage.setFullScreen(true);\r\n\r\n        world = new Mappa(\"/mappa.txt\");\r\n        scene = new Scene(world, WIDTH, HEIGHT, true, SceneAntialiasing.BALANCED);\r\n        scene.setFill(Color.LIGHTBLUE);\r\n\r\n        //creazione player e aggiunta camera alla scena\r\n        camera = new PerspectiveCamera(true);\r\n        scene.setCamera(camera); //aggiungo la camera alla scena\r\n\r\n        input = new HandleInput(scene);\r\n        weapon = new Weapon(15);\r\n        player = new Player(camera, input, weapon);\r\n\r\n        player.setId(\"player\");\r\n        weapon.setId(\"weapon\");\r\n        \r\n        //aggiungo il player all'ambiente\r\n        world.getChildren().addAll(player, weapon);\r\n\r\n        primaryStage.setTitle(\"DOOM\");\r\n        primaryStage.setScene(scene);\r\n        primaryStage.show();\r\n\r\n        //gameloop\r\n        timer = new Timer();\r\n        start();\r\n\r\n        //chiusura programma\r\n        primaryStage.\r\n        setOnCloseRequest(event -> {\r\n            System.exit(0);\r\n        });\r\n    }\r\n\r\n\r\n\r\n    public void start() {\r\n        timer.scheduleAtFixedRate(new TimerTask() {\r\n            @Override\r\n            public void run() {\r\n                // aggiornamento singoli elementi\r\n                player.update();\r\n            }\r\n        }, 0, FRAME_TIME);\r\n    }\r\n\r\n    public static Mappa getWorld() {\r\n        return world;\r\n    }\r\n    \r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/Game.java b/src/main/java/com/example/Game.java
+--- a/src/main/java/com/example/Game.java	(revision 0d59f3faf71a8fdc53cb7584d4b88d03f15d7a1d)
++++ b/src/main/java/com/example/Game.java	(date 1714640438842)
+@@ -29,6 +29,7 @@
+     private Scene scene;
+     private Player player;
+     private HandleInput input;
++    private Mostro mostro;
+ 
+ 
+     @Override
+@@ -46,12 +47,14 @@
+         input = new HandleInput(scene);
+         weapon = new Weapon(15);
+         player = new Player(camera, input, weapon);
++        mostro = new Mostro(player, 2,5,2, 0.1, 100, 30, -5, 30);
+ 
+         player.setId("player");
+         weapon.setId("weapon");
+         
+-        //aggiungo il player all'ambiente
++        //aggiungo il player, l'arma e il mostro all'ambiente
+         world.getChildren().addAll(player, weapon);
++        world.getChildren().add(mostro);
+ 
+         primaryStage.setTitle("DOOM");
+         primaryStage.setScene(scene);
+@@ -76,6 +79,7 @@
+             public void run() {
+                 // aggiornamento singoli elementi
+                 player.update();
++                mostro.update();
+             }
+         }, 0, FRAME_TIME);
+     }
+Index: src/main/java/com/example/Player.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example;\r\n\r\nimport javafx.scene.PerspectiveCamera;\r\nimport javafx.scene.input.KeyCode;\r\nimport javafx.scene.shape.Box;\r\nimport javafx.geometry.Point3D;\r\n\r\npublic class Player extends Box {\r\n\r\n    //forma\r\n    private static final double HEIGHT = 5;\r\n    private static final double WIDTH = 2;\r\n    private static final double DEPTH = 2;\r\n\r\n    //attributi\r\n    private HandleInput input;\r\n    private PerspectiveCamera camera;\r\n    private Weapon weapon;\r\n    private Point3D position;\r\n    private Vector3D vector3d;\r\n    private double rotation;\r\n\r\n    // Costruttore \r\n    @SuppressWarnings(\"exports\")\r\n    public Player(PerspectiveCamera camera, HandleInput input, Weapon weapon) {\r\n        super(WIDTH, HEIGHT, DEPTH); //entita'\r\n    \r\n        this.input = input;\r\n        this.weapon = weapon;\r\n        this.camera = camera;\r\n\r\n        //INIT\r\n        position = new Point3D(0, -5, 0);\r\n        vector3d = new Vector3D();\r\n        \r\n        //impostazione dimensioni hitbox\r\n        setTranslateY(position.getY());\r\n        setRotationAxis(position);\r\n\r\n        //settaggio camera\r\n        this.camera.setTranslateY(position.getY());\r\n        this.camera.setFieldOfView(90);\r\n        this.camera.setNearClip(0.1);\r\n        this.camera.setFarClip(1000.0);\r\n        this.camera.setRotationAxis(position);\r\n\r\n        //settaggio arma\r\n        this.weapon.setTranslateY(-4.599);\r\n        weapon.setRotationAxis(position);\r\n\r\n    }\r\n\r\n    \r\n    public void update() {\r\n        handleInput(); //leggo l'input dell'utente e modifico Vector3D\r\n        updateMovement(); //aggiornamento player    \r\n        updateCamera(); //aggiornamento camera\r\n        updateWeapon(); //aggiornamento arma\r\n    }\r\n\r\n    private void updateMovement() {\r\n        //sposto la hitbox\r\n        setTranslateX(position.getX());\r\n        setTranslateY(position.getY());\r\n        setTranslateZ(position.getZ());\r\n        //imposto la rotazione\r\n        this.setRotate(rotation);\r\n    }\r\n\r\n    private void updateWeapon() {\r\n        //sposto la hitbox\r\n        weapon.setTranslateX(position.getX());\r\n        weapon.setTranslateZ(position.getZ());\r\n        //imposto la rotazione\r\n        weapon.setRotate(rotation + rotation/6);\r\n    }\r\n\r\n    private void updateCamera() {\r\n        //sposto la camera\r\n        camera.setTranslateX(position.getX());\r\n        camera.setTranslateY(position.getY());\r\n        camera.setTranslateZ(position.getZ());\r\n        //imposto la rotazione\r\n        camera.setRotate(rotation);\r\n    }\r\n    \r\n\r\n    //leggo le richieste dell'utente dal buffer\r\n    private void handleInput() {\r\n\r\n        //prendo la rotazione richiesta\r\n        rotation = input.getRotation();\r\n\r\n        //prendo l'angolo di rotazione della camera e lo trasformo in movimento\r\n        double angleRad = Math.toRadians(camera.getRotate());\r\n\r\n        // Fermo\r\n        vector3d = new Vector3D();\r\n\r\n        // Movimento\r\n        if(input.getKeyState(KeyCode.W)) { //movimento in Z+\r\n            vector3d = vector3d.add(-Math.sin(angleRad), 0, Math.cos(angleRad));\r\n        }\r\n        if(input.getKeyState(KeyCode.A)) { //movimento in X-\r\n            vector3d = vector3d.add(-Math.sin(angleRad +90), 0, -Math.sin(angleRad));\r\n        }\r\n        if(input.getKeyState(KeyCode.S)) {  //movimento in Z-\r\n            vector3d = vector3d.add(Math.sin(angleRad), 0, -Math.cos(angleRad));\r\n        }\r\n        if(input.getKeyState(KeyCode.D)) { //movimento in X+\r\n            vector3d = vector3d.add(-Math.sin(angleRad -90), 0, Math.sin(angleRad));\r\n        }\r\n\r\n\r\n        \r\n\r\n        //controllo che nella direzione richiesta non ci siano muri, solo alla richiesta di input\r\n        if(input.getKeyState(KeyCode.W) || input.getKeyState(KeyCode.A) || input.getKeyState(KeyCode.S) || input.getKeyState(KeyCode.D)) {\r\n            \r\n            //iterazione per tutti gli elementi, muri e pavimenti\r\n            Game.getWorld().getChildren().forEach(wall -> {\r\n\r\n                //filtro per muri (id == 1)\r\n                if(wall.getId().equals(\"1\")) {\r\n                    \r\n                    //controllo la collisione con un muro nella direzione richiesta\r\n                    boolean xCollision = collisionX((Box)wall, vector3d.getX());\r\n                    boolean zCollision = collisionZ((Box)wall, vector3d.getZ());\r\n\r\n                    //controllo che la collisione avvenga con l'oggetto per entrambe le coordinate\r\n                    if(zCollision && xCollision) {      \r\n                        //controlla se alle sue spalle ha un ostacolo\r\n                        xCollision = collisionX((Box)wall, -vector3d.getX());\r\n                        zCollision = collisionZ((Box)wall, -vector3d.getZ());\r\n                        \r\n                        //impone che tu NON abbia un'ostacolo a destra/sinistra per fermarti in X\r\n                        if(!xCollision) vector3d.x = 0;\r\n                        \r\n                        //impone che tu NON abbia un'ostacolo avanti/dietro per fermarti in Z\r\n                        if(!zCollision) vector3d.z = 0;\r\n                    }\r\n                } \r\n            });\r\n        } //fine check collisioni\r\n        \r\n        //aggiorno la posizione\r\n        position = position.add(vector3d.getX(), vector3d.getY(), vector3d.getZ()); \r\n    }\r\n\r\n\r\n\r\n        //COLLISIONI\r\n//************************************************************* */\r\n    public boolean collisionX(@SuppressWarnings(\"exports\") Box wall, double dX) {\r\n\r\n        double observerX = getTranslateX();\r\n        double observerWidth = 3;\r\n\r\n        double entityX = wall.getTranslateX();\r\n        double entityWidth = 5;\r\n\r\n        return (observerX+observerWidth+dX >= entityX && observerX+dX <= entityX+entityWidth); \r\n    }\r\n\r\n    public boolean collisionZ(@SuppressWarnings(\"exports\") Box wall, double dY) {\r\n\r\n        double observerZ = getTranslateZ();\r\n        double observerHeight = 3;\r\n\r\n        double entityZ = wall.getTranslateZ();\r\n        double entityHeight = 5;\r\n\r\n        return (observerZ+observerHeight+dY >= entityZ && observerZ+dY <= entityZ+entityHeight); \r\n    }\r\n//********************************************************* */\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/Player.java b/src/main/java/com/example/Player.java
+--- a/src/main/java/com/example/Player.java	(revision 0d59f3faf71a8fdc53cb7584d4b88d03f15d7a1d)
++++ b/src/main/java/com/example/Player.java	(date 1714599148179)
+@@ -19,6 +19,7 @@
+     private Point3D position;
+     private Vector3D vector3d;
+     private double rotation;
++    private int puntiVita = 100;
+ 
+     // Costruttore 
+     @SuppressWarnings("exports")
+@@ -52,10 +53,10 @@
+ 
+     
+     public void update() {
+-        handleInput(); //leggo l'input dell'utente e modifico Vector3D
+-        updateMovement(); //aggiornamento player    
+-        updateCamera(); //aggiornamento camera
+-        updateWeapon(); //aggiornamento arma
++        handleInput();          //leggo l'input dell'utente e modifico Vector3D
++        updateMovement();       //aggiornamento player
++        updateCamera();         //aggiornamento camera
++        updateWeapon();         //aggiornamento arma
+     }
+ 
+     private void updateMovement() {
+@@ -172,6 +173,22 @@
+ 
+         return (observerZ+observerHeight+dY >= entityZ && observerZ+dY <= entityZ+entityHeight); 
+     }
++
++    //Metodo getter della posizione
++    public Point3D getPosition() {
++        return position;
++    }
++
++    //Metodo getter dei punti vita
++    public int getPuntiVita() {
++        return puntiVita;
++    }
++
++    //Metodo setter dei puntiVita
++    public void setPuntiVita (int vitaRimasta){
++        this.puntiVita = vitaRimasta;
++    }
++
+ //********************************************************* */
+ 
+ 
+Index: .idea/.gitignore
+===================================================================
+diff --git a/.idea/.gitignore b/.idea/.gitignore
+deleted file mode 100644
+--- a/.idea/.gitignore	(revision 0d59f3faf71a8fdc53cb7584d4b88d03f15d7a1d)
++++ /dev/null	(revision 0d59f3faf71a8fdc53cb7584d4b88d03f15d7a1d)
+@@ -1,3 +0,0 @@
+-# Default ignored files
+-/shelf/
+-/workspace.xml
+Index: src/main/java/com/example/Mostro.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/Mostro.java b/src/main/java/com/example/Mostro.java
+new file mode 100644
+--- /dev/null	(date 1714599419279)
++++ b/src/main/java/com/example/Mostro.java	(date 1714599419279)
+@@ -0,0 +1,65 @@
++package com.example;
++
++import javafx.geometry.Point3D;
++import javafx.scene.paint.Color;
++import javafx.scene.paint.PhongMaterial;
++import javafx.scene.shape.Box;
++
++public class Mostro extends Box {
++    private double speed;      //Velocità di movimento del mostro
++    private int puntiVita;      //Punti vita del mostro
++    private Point3D position;
++    private Player player;
++
++    public Mostro(Player player, double width, double height, double  depth, double speed, int puntiVita, int x, int y, int z){
++        super(width, height, depth);
++        position = new Point3D(x, y, z);
++        setSpeed(speed);
++        setPuntiVita(puntiVita);
++        this.player = player;
++
++
++        // Creazione di un materiale con un colore specifico
++        PhongMaterial material = new PhongMaterial();
++        material.setDiffuseColor(Color.RED);                    // Colore del mostro (rosso)
++        setMaterial(material);                                  // Applica il materiale alla forma del mostro
++    }
++
++    public void update() {
++        Point3D playerPosition = player.getPosition();
++        Point3D directionToPlayer = playerPosition.subtract(position).normalize();        // Calcola la direzione dal mostro al giocatore
++        Point3D movementDirection = directionToPlayer.multiply(1);                  // Si muove verso il giocatore
++        position = position.add(movementDirection.multiply(speed));                       // Aggiorna la posizione del mostro
++        setTranslateX(position.getX());
++        setTranslateY(position.getY());
++        setTranslateZ(position.getZ());
++    }
++
++    public void colpisci(int danno){
++        int vitaRimasta = player.getPuntiVita() - danno;
++        if(vitaRimasta > 0)
++            player.setPuntiVita(vitaRimasta);
++        else
++            System.exit(0);
++    }
++
++    //Metodo setter di speed, obbliga l'inserimento di un valore compreso tra 0.1 e 10.
++    public void setSpeed(double speed) {
++        if(speed <= 0)
++            this.speed = 0.1;
++        else if (speed > 10)
++            this.speed = 10;
++        else
++            this.speed = speed;
++    }
++
++    //Metodo setter di puntiVita, obbliga l'inserimento di un valore compreso tra 10 e 1000.
++    public void setPuntiVita(int puntiVita) {
++        if(puntiVita < 10)
++            this.puntiVita = 10;
++        else if (puntiVita > 1000)
++            this.puntiVita = 1000;
++        else
++            this.puntiVita = puntiVita;
++    }
++}
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\r\n  <component name=\"MavenProjectsManager\">\r\n    <option name=\"originalFiles\">\r\n      <list>\r\n        <option value=\"$PROJECT_DIR$/pom.xml\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_21\" default=\"true\" project-jdk-name=\"20\" project-jdk-type=\"JavaSDK\" />\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 0d59f3faf71a8fdc53cb7584d4b88d03f15d7a1d)
++++ b/.idea/misc.xml	(date 1714640085926)
+@@ -1,4 +1,3 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="ExternalStorageConfigurationManager" enabled="true" />
+   <component name="MavenProjectsManager">
