@@ -1,7 +1,6 @@
 package com.example;
 
 
-import java.io.FileInputStream;
 import java.util.Scanner;
 
 import javafx.scene.Group;
@@ -63,7 +62,7 @@ public class Mappa extends Group {
                         //aggiungo la box all'ambiente 3D
                         getChildren().add(box);
 
-                    } else {
+                    } else if(matrix[i][j] == '1') {
                         //impostazione texture
                         material = new PhongMaterial();
                         material.setDiffuseMap(new Image(getClass().getResourceAsStream("/textures/wall.jpg")));

@@ -6,7 +6,6 @@ import java.util.TimerTask;
 import javafx.application.Application;
 import javafx.scene.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Box;
 import javafx.stage.Stage;
 
 public class Game extends Application {
@@ -16,7 +15,7 @@ public class Game extends Application {
     }
 
     private Timer timer;
-    private static final int FPS = 34; // Frame per secondo
+    private static final int FPS = 30; // Frame per secondo
     private static final long FRAME_TIME = 1000 / FPS; // Tempo in millisecondi per frame
 
 

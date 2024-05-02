@@ -20,6 +20,7 @@ public class Player extends Box {
     private Vector3D vector3d;
     private double rotation;
 
+    
     // Costruttore 
     @SuppressWarnings("exports")
     public Player(PerspectiveCamera camera, HandleInput input, Weapon weapon) {
