@@ -21,7 +21,7 @@ public class Mostro extends Box {
         setSpeed(speed);
         setPuntiVita(puntiVita);
         this.player = player;
-        setRotationAxis(player.getPosition());
+        // setRotationAxis(player.getPosition());
 
         // Creazione di un materiale con un colore specifico
         //impostazione texture
@@ -35,9 +35,8 @@ public class Mostro extends Box {
         Point3D playerPosition = player.getPosition();
         Point3D directionToPlayer = playerPosition.subtract(position).normalize();           // Calcola la direzione dal mostro al giocatore
         AtomicReference<Point3D> movementDirection = new AtomicReference<>(directionToPlayer.multiply(1));                    // Si muove verso il giocatore
-                             // Aggiorna la posizione del mostro
+                            // Aggiorna la posizione del mostro
 
-        setRotate(player.getRotate());
 
         //CONTROLLO COLLISIONI
 

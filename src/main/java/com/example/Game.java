@@ -5,7 +5,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javafx.application.Application;
-import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -65,9 +64,7 @@ public class Game extends Application {
     }
 
 
-
-
-
+    //gameloop
     public void start() {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -84,24 +81,20 @@ public class Game extends Application {
     }
 
 
-
-
-
     //inizializzazione mostri
     private void makeMonsters() {
         //inizializzo l'array
         mostri = new ArrayList<>();
         //creo i mostri e li aggiungo all'array
-        Mostro mostro = new Mostro(
-            player, 5,5,5, 0.1, 100, 0, -5, 0);
-        mostro.setId("3");
-        Point3D pos = world.setEntityPosition(mostro);
-        if(pos != null) {
-            mostro.setPosition(pos);
+        world.getMonsters_spawnPoints().forEach(monster_spawnPoint -> {
+            int x = (int)monster_spawnPoint.getX();
+            int y = (int)monster_spawnPoint.getY();
+            int z = (int)monster_spawnPoint.getZ();
+            Mostro mostro = new Mostro( //creo mostro nella posizione di spawn
+                player, 5,5,5, 0.2, 100, x, y, z);
+            mostro.setId("3"); 
             mostri.add(mostro);
-        } 
-
-        System.out.println(mostri.size());
+        });
     }
 
 
@@ -111,32 +104,18 @@ public class Game extends Application {
         camera = new PerspectiveCamera(true);
         input = new HandleInput(scene);
         weapon = new Weapon(15);
-        player = new Player(camera, input, weapon);
+        player = new Player(camera, input, weapon, 0, -5, 0);
         scene.setCamera(camera); //aggiungo la camera alla scena
 
         player.setId("2"); //imposto un id per distinzione
         weapon.setId("2"); //imposto un id per distinzione
 
-        Point3D pos = world.setEntityPosition(player);
-        if(pos != null) player.setPosition(pos);
+        //imposto la posizione del player al suo spawnPoint
+        player.setPosition(world.getPlayer_spawnPoint());
     }
 
 
+    public static Mappa getWorld() {return world;}
 
-
-
-
-
-
-
-
-
-    public static Mappa getWorld() {
-        return world;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-    
+    public Player getPlayer() {return player;}
 }

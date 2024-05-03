@@ -24,7 +24,7 @@ public class Player extends Box {
     
     // Costruttore 
     @SuppressWarnings("exports")
-    public Player(PerspectiveCamera camera, HandleInput input, Weapon weapon) {
+    public Player(PerspectiveCamera camera, HandleInput input, Weapon weapon, int x, int y, int z) {
         super(WIDTH, HEIGHT, DEPTH); //entita'
     
         this.input = input;
@@ -32,7 +32,7 @@ public class Player extends Box {
         this.camera = camera;
 
         //INIT
-        position = new Point3D(0, -5, 0);
+        position = new Point3D(x, y, z);
         vector3d = new Vector3D();
         
         //impostazione dimensioni hitbox
@@ -47,12 +47,12 @@ public class Player extends Box {
         this.camera.setRotationAxis(position);
 
         //settaggio arma
-        Point3D weaponPosition = new Point3D(0, -5, 0);
         this.weapon.setTranslateY(-4.65);
         this.weapon.setRotationAxis(position);
-        this.weapon.setPosition(weaponPosition);
+        this.weapon.setPosition(position);
     }
 
+    
     public void update() {
         handleInput();          //leggo l'input dell'utente e modifico la posizione
         updateMovement();       //aggiornamento player
@@ -154,10 +154,10 @@ public class Player extends Box {
     public boolean collisionX(@SuppressWarnings("exports") Box wall, double dX) {
 
         double observerX = getTranslateX();
-        double observerWidth = 3;
+        double observerWidth = WIDTH+1;
 
         double entityX = wall.getTranslateX();
-        double entityWidth = 5;
+        double entityWidth = wall.getWidth();
 
         return (observerX+observerWidth+dX >= entityX && observerX+dX <= entityX+entityWidth); 
     }
@@ -165,10 +165,10 @@ public class Player extends Box {
     public boolean collisionZ(@SuppressWarnings("exports") Box wall, double dY) {
 
         double observerZ = getTranslateZ();
-        double observerHeight = 3;
+        double observerHeight = DEPTH+1;
 
         double entityZ = wall.getTranslateZ();
-        double entityHeight = 5;
+        double entityHeight = wall.getDepth();
 
         return (observerZ+observerHeight+dY >= entityZ && observerZ+dY <= entityZ+entityHeight); 
     }
@@ -195,5 +195,5 @@ public class Player extends Box {
 
 //********************************************************* */
 
-    
+
 }

@@ -23,7 +23,8 @@ public class Weapon extends Box {
 
         //init for shotgun
         PhongMaterial pm = new PhongMaterial();
-        pm.setDiffuseMap(new Image(getClass().getResourceAsStream("/textures/shotgun.png")));
+        pm.setDiffuseMap(new Image(
+            getClass().getResourceAsStream("/textures/shotgun.png")));
         setMaterial(pm);
 
         //movimento
