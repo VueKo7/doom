@@ -41,7 +41,17 @@ public class Game extends Application {
         scene.setFill(Color.LIGHTBLUE);
 
         makePlayer(); //INIT player
+<<<<<<< HEAD
         makeMonsters(); //INIT monsters
+=======
+        
+        mostri = new Mostro[3];
+        for (int i = 0; i < mostri.length; i++) {
+            mostri[i] = new Mostro(player, 5,5,5, 0.1, 100, i+30, -5, i+30);
+            mostri[i].setId("mostro");
+        }
+
+>>>>>>> fad69580e78c6a4c0f3eca0e60fe6975e85899dc
 
         //aggiungo gli elementi dinamici al mondo
         world.getChildren().addAll(player, weapon); //aggiungo il player
@@ -90,6 +100,7 @@ public class Game extends Application {
         }, 0, FRAME_TIME);
     }
 
+<<<<<<< HEAD
 
 
 
@@ -106,6 +117,8 @@ public class Game extends Application {
     }
 
 
+=======
+>>>>>>> fad69580e78c6a4c0f3eca0e60fe6975e85899dc
     //inizializzazione player
     private void makePlayer() {
         //creazione player e aggiunta camera alla scena

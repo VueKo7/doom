@@ -54,7 +54,6 @@ public class Player extends Box {
         this.weapon.setPosition(weaponPosition);
     }
 
-    
     public void update() {
         handleInput();          //leggo l'input dell'utente e modifico la posizione
         updateMovement();       //aggiornamento player

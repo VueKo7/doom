@@ -28,8 +28,13 @@ public class Weapon extends Box {
 
         //movimento
         setOnRotate(event -> {
+<<<<<<< HEAD
             setTranslateX(getTranslateX());
             setTranslateZ(getTranslateZ());
+=======
+            setTranslateX(position.getX());
+            setTranslateZ(position.getZ());
+>>>>>>> fad69580e78c6a4c0f3eca0e60fe6975e85899dc
         });
     }
 
