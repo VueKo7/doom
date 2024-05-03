@@ -47,8 +47,7 @@ public class Player extends Box {
         this.camera.setRotationAxis(position);
 
         //settaggio arma
-        
-        Point3D weaponPosition = new Point3D(0, -0.5, 0);
+        Point3D weaponPosition = new Point3D(0, -5, 0);
         this.weapon.setTranslateY(-4.65);
         this.weapon.setRotationAxis(position);
         this.weapon.setPosition(weaponPosition);
@@ -196,5 +195,5 @@ public class Player extends Box {
 
 //********************************************************* */
 
-
+    
 }

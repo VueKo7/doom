@@ -135,4 +135,7 @@ public class Mostro extends Box {
     }
 
 
+    public void setPosition(@SuppressWarnings("exports") Point3D position) {
+        this.position = position;
+    }
 }

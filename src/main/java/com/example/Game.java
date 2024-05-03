@@ -1,9 +1,11 @@
 package com.example;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javafx.application.Application;
+import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -29,7 +31,7 @@ public class Game extends Application {
     private Player player;
     private HandleInput input;
 
-    private Mostro[] mostri;
+    private ArrayList<Mostro> mostri;
 
 
     @Override
@@ -46,15 +48,6 @@ public class Game extends Application {
         //aggiungo gli elementi dinamici al mondo
         world.getChildren().addAll(player, weapon); //aggiungo il player
         world.getChildren().addAll(mostri); //aggiungo i mostri
-
-        // Box box = world.setEntityPosition(player); //posizione il player
-        // player.setTranslateX(box.getTranslateX());
-        // player.setTranslateZ(box.getTranslateZ());
-        // for (int i = 0; i < mostri.length; i++) {
-        //     box = world.setEntityPosition(mostri[i]); //posiziono il mostro
-        //     mostri[i].setTranslateX(box.getTranslateX());
-        //     mostri[i].setTranslateZ(box.getTranslateZ());
-        // }
 
         primaryStage.setTitle("DOOM");
         primaryStage.setScene(scene);
@@ -79,12 +72,12 @@ public class Game extends Application {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                // aggiornamento singoli elementi
+                // aggiornamento player
                 player.update();
-
-                for(int i = 0; i < mostri.length; i++) {
-                    mostri[i].update();
-                }
+                //aggiornamento mostri
+                mostri.forEach(mostro -> {
+                    mostro.update();
+                });
                 
             }
         }, 0, FRAME_TIME);
@@ -97,12 +90,18 @@ public class Game extends Application {
     //inizializzazione mostri
     private void makeMonsters() {
         //inizializzo l'array
-        mostri = new Mostro[1];
+        mostri = new ArrayList<>();
         //creo i mostri e li aggiungo all'array
-        for (int i = 0; i < mostri.length; i++) {
-            mostri[i] = new Mostro(player, 5,5,5, 0.1, 100, i+30, -5, i+30);
-            mostri[i].setId("3");
-        }
+        Mostro mostro = new Mostro(
+            player, 5,5,5, 0.1, 100, 0, -5, 0);
+        mostro.setId("3");
+        Point3D pos = world.setEntityPosition(mostro);
+        if(pos != null) {
+            mostro.setPosition(pos);
+            mostri.add(mostro);
+        } 
+
+        System.out.println(mostri.size());
     }
 
 
@@ -117,6 +116,9 @@ public class Game extends Application {
 
         player.setId("2"); //imposto un id per distinzione
         weapon.setId("2"); //imposto un id per distinzione
+
+        Point3D pos = world.setEntityPosition(player);
+        if(pos != null) player.setPosition(pos);
     }
 
 
