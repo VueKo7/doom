@@ -47,7 +47,7 @@ public class Game extends Application {
             mostri[i] = new Mostro(player, 5,5,5, 0.1, 100, i+30, -5, i+30);
             mostri[i].setId("mostro");
         }
-        
+
 
 
         //aggiungo il player, l'arma e il mostro all'ambiente
@@ -85,7 +85,6 @@ public class Game extends Application {
             }
         }, 0, FRAME_TIME);
     }
-
 
     //inizializzazione player
     public void makePlayer() {
