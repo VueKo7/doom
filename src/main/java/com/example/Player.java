@@ -72,10 +72,9 @@ public class Player extends Box {
     }
 
     private void updateWeapon() {
-        weapon.setPosition(weapon.getPosition().add(position));
         //sposto la hitbox
-        weapon.setTranslateX(weapon.getPosition().getX() + 0.1);
-        weapon.setTranslateZ(weapon.getPosition().getZ());
+        weapon.setTranslateX(position.getX());
+        weapon.setTranslateZ(position.getZ());
         //imposto la rotazione
         weapon.setRotate(rotation);
     }

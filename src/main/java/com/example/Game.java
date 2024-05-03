@@ -41,18 +41,20 @@ public class Game extends Application {
         scene.setFill(Color.LIGHTBLUE);
 
         makePlayer(); //INIT player
-        
-        mostri = new Mostro[3];
-        for (int i = 0; i < mostri.length; i++) {
-            mostri[i] = new Mostro(player, 5,5,5, 0.1, 100, i+30, -5, i+30);
-            mostri[i].setId("mostro");
-        }
-        
+        makeMonsters(); //INIT monsters
 
+        //aggiungo gli elementi dinamici al mondo
+        world.getChildren().addAll(player, weapon); //aggiungo il player
+        world.getChildren().addAll(mostri); //aggiungo i mostri
 
-        //aggiungo il player, l'arma e il mostro all'ambiente
-        world.getChildren().addAll(player, weapon);
-        world.getChildren().addAll(mostri);
+        // Box box = world.setEntityPosition(player); //posizione il player
+        // player.setTranslateX(box.getTranslateX());
+        // player.setTranslateZ(box.getTranslateZ());
+        // for (int i = 0; i < mostri.length; i++) {
+        //     box = world.setEntityPosition(mostri[i]); //posiziono il mostro
+        //     mostri[i].setTranslateX(box.getTranslateX());
+        //     mostri[i].setTranslateZ(box.getTranslateZ());
+        // }
 
         primaryStage.setTitle("DOOM");
         primaryStage.setScene(scene);
@@ -68,6 +70,8 @@ public class Game extends Application {
             System.exit(0);
         });
     }
+
+
 
 
 
@@ -87,8 +91,23 @@ public class Game extends Application {
     }
 
 
+
+
+
+    //inizializzazione mostri
+    private void makeMonsters() {
+        //inizializzo l'array
+        mostri = new Mostro[1];
+        //creo i mostri e li aggiungo all'array
+        for (int i = 0; i < mostri.length; i++) {
+            mostri[i] = new Mostro(player, 5,5,5, 0.1, 100, i+30, -5, i+30);
+            mostri[i].setId("3");
+        }
+    }
+
+
     //inizializzazione player
-    public void makePlayer() {
+    private void makePlayer() {
         //creazione player e aggiunta camera alla scena
         camera = new PerspectiveCamera(true);
         input = new HandleInput(scene);
@@ -96,8 +115,8 @@ public class Game extends Application {
         player = new Player(camera, input, weapon);
         scene.setCamera(camera); //aggiungo la camera alla scena
 
-        player.setId("player"); //imposto un id per distinzione
-        weapon.setId("weapon"); //imposto un id per distinzione
+        player.setId("2"); //imposto un id per distinzione
+        weapon.setId("2"); //imposto un id per distinzione
     }
 
 
