@@ -12,7 +12,6 @@ public class Mostro extends Box {
     private double speed;      //Velocità di movimento del mostro
     private int puntiVita;      //Punti vita del mostro
     private Point3D position;
-    private Vector3D vector3d;
     private Player player;
 
     public Mostro(Player player, double width, double height, double depth,
@@ -27,7 +26,8 @@ public class Mostro extends Box {
         // Creazione di un materiale con un colore specifico
         //impostazione texture
         PhongMaterial material = new PhongMaterial();
-        material.setDiffuseMap(new Image(getClass().getResourceAsStream("/textures/finalBoss.jpg")));                  // Colore del mostro (rosso)
+        material.setDiffuseMap(new Image(
+            getClass().getResourceAsStream("/textures/finalBoss.jpg")));                  // Colore del mostro (rosso)
         setMaterial(material);                                  // Applica il materiale alla forma del mostro
     }
 
@@ -59,12 +59,14 @@ public class Mostro extends Box {
 
                     //impone che tu NON abbia un'ostacolo a destra/sinistra per fermarti in X
                     if(!xCollision){
-                        movementDirection.set(new Point3D(0,movementDirection.get().getY(), movementDirection.get().getZ()));
+                        movementDirection.set(new Point3D(
+                            0,movementDirection.get().getY(), movementDirection.get().getZ()));
                     }
 
                     //impone che tu NON abbia un'ostacolo avanti/dietro per fermarti in Z
                     if(!zCollision){
-                        movementDirection.set(new Point3D(movementDirection.get().getX(), movementDirection.get().getY(),0));
+                        movementDirection.set(new Point3D(
+                            movementDirection.get().getX(), movementDirection.get().getY(),0));
                     }
                 }
             }

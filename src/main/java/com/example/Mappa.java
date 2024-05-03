@@ -91,7 +91,6 @@ public class Mappa extends Group {
         }
         
     }
-<<<<<<< HEAD
 
 
     @SuppressWarnings("exports")
@@ -113,7 +112,5 @@ public class Mappa extends Group {
         }
         return entity;    
     }
-=======
->>>>>>> fad69580e78c6a4c0f3eca0e60fe6975e85899dc
     
 }
