@@ -73,7 +73,8 @@ public class Game extends Application {
                 player.update();
                 //aggiornamento mostri
                 mostri.forEach(mostro -> {
-                    mostro.update();
+                    if(mostro.getPuntiVita() > 0)
+                        mostro.update();
                 });
                 
             }
@@ -92,7 +93,12 @@ public class Game extends Application {
             int z = (int)monster_spawnPoint.getZ();
             Mostro mostro = new Mostro( //creo mostro nella posizione di spawn
                 player, 5,5,5, 0.2, 100, x, y, z);
-            mostro.setId("3"); 
+            mostro.setId("3"); //identificativo per mostro
+            //aggiungo la possibilta del mostro di essere sparato
+            mostro.setOnMouseClicked(event -> {
+                mostro.subisci(player.getWeapon().getDamage());
+            });
+            //aggiungo il mostro alla lista
             mostri.add(mostro);
         });
     }
@@ -103,7 +109,7 @@ public class Game extends Application {
         //creazione player e aggiunta camera alla scena
         camera = new PerspectiveCamera(true);
         input = new HandleInput(scene);
-        weapon = new Weapon(15);
+        weapon = new Weapon(15, 20);
         player = new Player(camera, input, weapon, 0, -5, 0);
         scene.setCamera(camera); //aggiungo la camera alla scena
 

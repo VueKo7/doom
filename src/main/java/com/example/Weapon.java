@@ -15,11 +15,13 @@ public class Weapon extends Box {
     //risorsa
     private int bullets;
     private Point3D position;
+    private int damage;
 
 
-    public Weapon(int bullets) {
+    public Weapon(int bullets, int damage) {
         super(WIDTH, HEIGHT, DEPTH); //forma arma
         this.bullets = bullets; //proiettili iniziali
+        this.damage = damage; //danno arma
 
         //init for shotgun
         PhongMaterial pm = new PhongMaterial();
@@ -34,6 +36,9 @@ public class Weapon extends Box {
         });
     }
 
+    public int getDamage() {
+        return damage;
+    }
 
     public int getBullets() {
         return bullets;

@@ -196,4 +196,8 @@ public class Player extends Box {
 //********************************************************* */
 
 
+    public Weapon getWeapon() {
+        return weapon;
+    }
+
 }

@@ -1,22 +1,17 @@
 package com.example;
 
-import javafx.geometry.Point3D;
+import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.robot.Robot;
 
 public class HandleInput {
     
     private double rotation = 0; //per visuale
-
-    //per l'arma
-    private boolean fire = false;
-    private Point3D whereToShoot; 
-
     private boolean buffer[];
 
     public HandleInput(@SuppressWarnings("exports") Scene scene) {
         buffer = new boolean[255];
-        whereToShoot = new Point3D(0, 0, 0);
 
         //input da tastiera
         scene.setOnKeyPressed(event -> {
@@ -30,6 +25,7 @@ public class HandleInput {
 
         //ROTAZIONE VISUALE
         scene.setOnMouseMoved(event -> {
+            
             double mouseX = event.getSceneX();
             double centerX = scene.getWidth() / 2.0;
             
@@ -41,18 +37,12 @@ public class HandleInput {
         
 
         //FIRE WEAPON
-        scene.setOnMousePressed(event -> {
-            //prendo le coordinate del click
-            whereToShoot = new Point3D(event.getX(), event.getY(), event.getZ());
-
-            System.out.printf("X:%f, Y:%f, Z:%f\n", event.getX(), event.getY(), event.getZ());
-            
-            fire = true;
+        scene.setOnMouseClicked(event -> {
+            System.out.println("shoot");
         }); 
 
-        scene.setOnMouseReleased(event -> {
-            fire = false;
-        });
+
+        
 
     }
 
