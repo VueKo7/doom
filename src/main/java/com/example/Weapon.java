@@ -8,9 +8,9 @@ import javafx.scene.shape.Box;
 public class Weapon extends Box {
     
     //forma
-    private static final double HEIGHT = 0.5;
-    private static final double WIDTH = 0.25;
-    private static final double DEPTH = 1.1;
+    private static final double HEIGHT = 0.47;
+    private static final double WIDTH = 0.15;
+    private static final double DEPTH = 0.7;
 
     //risorsa
     private int bullets;
@@ -26,7 +26,7 @@ public class Weapon extends Box {
         //init for shotgun
         PhongMaterial pm = new PhongMaterial();
         pm.setDiffuseMap(new Image(
-            getClass().getResourceAsStream("/textures/shotgun.png")));
+            getClass().getResourceAsStream("/textures/shotgun.jpg")));
         setMaterial(pm);
 
         //movimento

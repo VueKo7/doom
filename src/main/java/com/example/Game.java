@@ -35,8 +35,8 @@ public class Game extends Application {
 
     @Override
     public void start(@SuppressWarnings("exports") Stage primaryStage) {
-        // primaryStage.setFullScreen(true);
-
+        primaryStage.setFullScreen(true);
+        
         world = new Mappa("/mappa.txt");
         scene = new Scene(world, WIDTH, HEIGHT, true, SceneAntialiasing.BALANCED);
         scene.setFill(Color.LIGHTBLUE);
@@ -97,6 +97,7 @@ public class Game extends Application {
             //aggiungo la possibilta del mostro di essere sparato
             mostro.setOnMouseClicked(event -> {
                 mostro.subisci(player.getWeapon().getDamage());
+                
             });
             //aggiungo il mostro alla lista
             mostri.add(mostro);

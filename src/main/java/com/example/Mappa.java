@@ -18,7 +18,6 @@ public class Mappa extends Group {
     private Point3D player_spawnPoint;
 
     public Mappa(String nomeLvl) {
-
         mappa = new ArrayList<>();
         monsters_spawnPoints = new ArrayList<>();
         player_spawnPoint = null;
@@ -56,7 +55,7 @@ public class Mappa extends Group {
                         //creo più blocchi impilati
                         for(int y = 0; y < 4; ++y) {
                             //creo 4 muri impilati uno sopra l'altro
-                            Box box = makeBox(i*5, -y*5, j*5, 5, 5, 5, "/textures/wall.jpg", "1");
+                            Box box = makeBox(i*5, -y*5, j*5, 5, 5, 5, "/textures/redScull.png", "1");
                             //aggiungo la box all'ambiente 3D
                             getChildren().add(box);
                         }

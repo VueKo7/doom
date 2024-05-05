@@ -113,6 +113,13 @@ public class Player extends Box {
             vector3d = vector3d.add(-Math.sin(angleRad -90), 0, Math.sin(angleRad));
         }
 
+        if(input.getKeyState(KeyCode.SPACE)) {
+            vector3d.y--;
+        }
+        if(input.getKeyState(KeyCode.CONTROL)) {
+            vector3d.y++;
+        }
+
 
         //controllo che nella direzione richiesta non ci siano muri, solo alla richiesta di input
         if(input.getKeyState(KeyCode.W) || input.getKeyState(KeyCode.A) || input.getKeyState(KeyCode.S) || input.getKeyState(KeyCode.D)) {
