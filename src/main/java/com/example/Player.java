@@ -2,6 +2,7 @@ package com.example;
 
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.shape.Box;
 import javafx.geometry.Point3D;
 
@@ -113,12 +114,32 @@ public class Player extends Box {
             vector3d = vector3d.add(-Math.sin(angleRad -90), 0, Math.sin(angleRad));
         }
 
-        if(input.getKeyState(KeyCode.SPACE)) {
-            vector3d.y--;
+        // if(input.getKeyState(KeyCode.SPACE)) {
+        //     vector3d.y--;
+        // }
+        // if(input.getKeyState(KeyCode.CONTROL)) {
+        //     vector3d.y++;
+        // }
+
+        //FIRE WEAPON
+        if(input.getKeyState(MouseButton.PRIMARY)) {
+            //scorro tutti i nemici
+            Game.getWorld().getChildren().forEach(monster -> {
+                //filtro per mostri
+                if(monster.getId().equals("3")) {
+                    //area di sparo, se il nemico si trova in queste coordinate prende danno
+                    double min = 0;
+                    double max = getScene().getWidth();
+                    if(monster.getTranslateX() < max && monster.getTranslateX() > min) {
+                        System.out.println("hai colpito il mostro con id: " + monster.getId());
+                    }
+                }
+            });
+
+
+            input.setKeyState(MouseButton.PRIMARY, false);
         }
-        if(input.getKeyState(KeyCode.CONTROL)) {
-            vector3d.y++;
-        }
+
 
 
         //controllo che nella direzione richiesta non ci siano muri, solo alla richiesta di input

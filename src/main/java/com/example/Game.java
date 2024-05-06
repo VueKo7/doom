@@ -19,8 +19,8 @@ public class Game extends Application {
     private static final int FPS = 30; // Frame per secondo
     private static final long FRAME_TIME = 1000 / FPS; // Tempo in millisecondi per frame
 
-    private static final double WIDTH = 1280;
-    private static final double HEIGHT = 720;
+    private static final double WIDTH = 1980;
+    private static final double HEIGHT = 1080;
     
     private static Mappa world;
     private Scene scene;
@@ -35,7 +35,7 @@ public class Game extends Application {
 
     @Override
     public void start(@SuppressWarnings("exports") Stage primaryStage) {
-        primaryStage.setFullScreen(true);
+        // primaryStage.setFullScreen(true);
         
         world = new Mappa("/mappa.txt");
         scene = new Scene(world, WIDTH, HEIGHT, true, SceneAntialiasing.BALANCED);
@@ -48,7 +48,7 @@ public class Game extends Application {
         world.getChildren().addAll(player, weapon); //aggiungo il player
         world.getChildren().addAll(mostri); //aggiungo i mostri
 
-        primaryStage.setTitle("DOOM");
+        primaryStage.setTitle("DOOM");//zola consiglia di cambiare nome
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -95,10 +95,10 @@ public class Game extends Application {
                 player, 5,5,5, 0.2, 100, x, y, z);
             mostro.setId("3"); //identificativo per mostro
             //aggiungo la possibilta del mostro di essere sparato
-            mostro.setOnMouseClicked(event -> {
-                mostro.subisci(player.getWeapon().getDamage());
+            // mostro.setOnMouseClicked(event -> {
+            //     mostro.subisci(player.getWeapon().getDamage());
                 
-            });
+            // });
             //aggiungo il mostro alla lista
             mostri.add(mostro);
         });
