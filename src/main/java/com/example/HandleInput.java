@@ -42,11 +42,10 @@ public class HandleInput {
         scene.setOnMouseClicked(event -> {
             if(event.getButton() == MouseButton.PRIMARY) { //filtro l'input
                 if(event.getClickCount() < 3) { //tolgo lo spam di click
-                    buffer[event.getButton().hashCode() % buffer.length] = true;
+                    buffer[event.getButton().name().length() % buffer.length] = true;
                 }
             }
         }); 
-
     }
 
 
@@ -57,12 +56,12 @@ public class HandleInput {
         return buffer[keyCode.getCode()];
     }
     public boolean getKeyState(@SuppressWarnings("exports") MouseButton keyCode) {
-        return buffer[keyCode.hashCode() % buffer.length];
+        return buffer[keyCode.name().length() % buffer.length];
     }
 
     //una volta effettuato il click viene riportato a false l'evento
     public void setKeyState(@SuppressWarnings("exports") MouseButton keyCode, boolean bool) {
-        buffer[keyCode.hashCode() % buffer.length] = bool;        
+        buffer[keyCode.name().length() % buffer.length] = bool;        
     }
     public void setKeyState(@SuppressWarnings("exports") KeyCode keyCode, boolean bool) {
         buffer[keyCode.getCode()] = bool;        

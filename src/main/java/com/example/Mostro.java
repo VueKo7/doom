@@ -131,6 +131,10 @@ public class Mostro extends Box {
         return (observerZ + observerHeight + dY >= entityZ && observerZ + dY <= entityZ + entityHeight);
     }
 
+    @SuppressWarnings("exports")
+    public Point3D getPosition() {
+        return position;
+    }
 
     public void setPosition(@SuppressWarnings("exports") Point3D position) {
         this.position = position;

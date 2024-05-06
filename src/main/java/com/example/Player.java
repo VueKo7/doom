@@ -4,6 +4,7 @@ import javafx.scene.PerspectiveCamera;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.shape.Box;
+import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 
 public class Player extends Box {
@@ -73,6 +74,7 @@ public class Player extends Box {
     private void updateWeapon() {
         //sposto la hitbox
         weapon.setTranslateX(position.getX());
+        camera.setTranslateY(position.getY());
         weapon.setTranslateZ(position.getZ());
         //imposto la rotazione
         weapon.setRotate(rotation);
@@ -114,29 +116,41 @@ public class Player extends Box {
             vector3d = vector3d.add(-Math.sin(angleRad -90), 0, Math.sin(angleRad));
         }
 
-        // if(input.getKeyState(KeyCode.SPACE)) {
-        //     vector3d.y--;
-        // }
-        // if(input.getKeyState(KeyCode.CONTROL)) {
-        //     vector3d.y++;
-        // }
+        if(input.getKeyState(KeyCode.SPACE)) {
+            vector3d.y = -1;
+        }
+        if(input.getKeyState(KeyCode.CONTROL)) {
+            vector3d.y = 1;
+        }
 
         //FIRE WEAPON
         if(input.getKeyState(MouseButton.PRIMARY)) {
             //scorro tutti i nemici
-            Game.getWorld().getChildren().forEach(monster -> {
+            Game.getWorld().getChildren().forEach(entity -> {
                 //filtro per mostri
-                if(monster.getId().equals("3")) {
-                    //area di sparo, se il nemico si trova in queste coordinate prende danno
-                    double min = 0;
-                    double max = getScene().getWidth();
-                    if(monster.getLayoutX() < max && monster.getLayoutX() > min) {
-                        System.out.println("hai colpito il mostro con id: " + monster.getId());
+                if(entity.getId().equals("3")) {
+                    Mostro mostro = (Mostro)entity;
+                    
+                    //ottengo la direzione nella quale il player è girato ed ottengo il vettore di spostamento
+                    double angle = Math.toRadians(camera.getRotate());
+                    Vector3D vector = new Vector3D(-Math.sin(angle), 0, Math.cos(angle));
+                    //creo quello che sarebbe il proiettile che viaggia nella direzione vettoriale di dove guardi
+                    Point3D proiettile = new Point3D(position.getX(), position.getY(), position.getZ());
+
+                    boolean collision = false;
+                    //itero per quanto range ha lo sparo
+                    for(int i = 0; i < 50 && !collision; i++) {
+                        //applico lo spostamento sul proiettile
+                        proiettile = proiettile.add(vector.x, vector.y, vector.z);
+                        //controllo che il proiettile raggiunga e superi il mostro, margine di errore: 3
+                        if(mostro.getPosition().distance(proiettile) < 3) {
+                            mostro.subisci(getWeapon().getDamage());
+                            collision = true;
+                            System.out.println("BANG");
+                        }
                     }
                 }
             });
-
-
             input.setKeyState(MouseButton.PRIMARY, false);
         }
 
