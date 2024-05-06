@@ -5,7 +5,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.*;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -19,8 +21,8 @@ public class Game extends Application {
     private static final int FPS = 30; // Frame per secondo
     private static final long FRAME_TIME = 1000 / FPS; // Tempo in millisecondi per frame
 
-    private static final double WIDTH = 1980;
-    private static final double HEIGHT = 1080;
+    private static final double WIDTH = 1280;
+    private static final double HEIGHT = 720;
     
     private static Mappa world;
     private Scene scene;
@@ -38,7 +40,11 @@ public class Game extends Application {
         // primaryStage.setFullScreen(true);
         
         world = new Mappa("/mappa.txt");
-        scene = new Scene(world, WIDTH, HEIGHT, true, SceneAntialiasing.BALANCED);
+        Pane pane = new Pane(world);
+        Insets insets = new Insets(100);
+        pane.setPadding(insets);
+        pane.applyCss();
+        scene = new Scene(pane, WIDTH, HEIGHT, true, SceneAntialiasing.BALANCED);
         scene.setFill(Color.LIGHTBLUE);
 
         makePlayer(); //INIT player

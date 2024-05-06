@@ -130,7 +130,7 @@ public class Player extends Box {
                     //area di sparo, se il nemico si trova in queste coordinate prende danno
                     double min = 0;
                     double max = getScene().getWidth();
-                    if(monster.getTranslateX() < max && monster.getTranslateX() > min) {
+                    if(monster.getLayoutX() < max && monster.getLayoutX() > min) {
                         System.out.println("hai colpito il mostro con id: " + monster.getId());
                     }
                 }
