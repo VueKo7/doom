@@ -46,8 +46,8 @@ public class Mappa extends Group {
                     //creazione pavimento
                     if(mappa.get(i).toCharArray()[j] == ' ') { 
                         //creo la box 5*5*5 che compone il pavimento
-                        Box floor = makeBox(i*5, 0, j*5, 5, 1, 5, "/textures/pavimento.jpg", " ");
-                        Box roof = makeBox(i*5, -17, j*5, 5, 1, 5, "/textures/tetto.jpg", " ");
+                        Box floor = makeBox(i*5, 0, j*5, 5, 1, 5, "/textures/pavimento.png", " ");
+                        Box roof = makeBox(i*5, -17, j*5, 5, 1, 5, "/textures/tetto.png", " ");
                         //lo aggiungo all'ambiente 3D
                         getChildren().addAll(floor, roof);
                         
@@ -57,7 +57,7 @@ public class Mappa extends Group {
                         //creo più blocchi impilati
                         for(int y = 0; y < 4; ++y) {
                             //creo 4 muri impilati uno sopra l'altro
-                            Box box = makeBox(i*5, -y*5, j*5, 5, 5, 5, "/textures/muro.jpg", "1");
+                            Box box = makeBox(i*5, -y*5, j*5, 5, 5, 5, "/textures/muro.png", "1");
                             //aggiungo la box all'ambiente 3D
                             getChildren().add(box);
                         }
@@ -66,8 +66,8 @@ public class Mappa extends Group {
                     else if(mappa.get(i).toCharArray()[j] == '2') {
                         //filtro per player tramite id e char mappato == 2
                         if(mappa.get(i).toCharArray()[j] == '2') {
-                            Box floor = makeBox(i*5, 0, j*5, 5, 1, 5, "/textures/pavimento.jpg", " ");
-                            Box roof = makeBox(i*5, -17, j*5, 5, 1, 5, "/textures/tetto.jpg", " ");
+                            Box floor = makeBox(i*5, 0, j*5, 5, 1, 5, "/textures/pavimento.png", " ");
+                            Box roof = makeBox(i*5, -17, j*5, 5, 1, 5, "/textures/tetto.png", " ");
                             //chiudo il buco rimasto dal player
                             getChildren().addAll(floor, roof);
                             //nuova posizione player, spawn point
@@ -76,8 +76,8 @@ public class Mappa extends Group {
                     }
                     //posizione mostro
                     else if(mappa.get(i).toCharArray()[j] == '3') {
-                        Box floor = makeBox(i*5, 0, j*5, 5, 1, 5, "/textures/pavimento.jpg", " ");
-                        Box roof = makeBox(i*5, -17, j*5, 5, 1, 5, "/textures/tetto.jpg", " ");
+                        Box floor = makeBox(i*5, 0, j*5, 5, 1, 5, "/textures/pavimento.png", " ");
+                        Box roof = makeBox(i*5, -17, j*5, 5, 1, 5, "/textures/tetto.png", " ");
                         //chiudo il buco rimasto dai mostri
                         getChildren().addAll(floor, roof);
                         //nuova posizione mostro, spawn point

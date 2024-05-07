@@ -75,14 +75,13 @@ public class Game extends Application {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                // aggiornamento player
-                player.update();
                 //aggiornamento mostri
                 mostri.forEach(mostro -> {
                     if(mostro.getPuntiVita() > 0)
                         mostro.update();
                 });
-                
+                // aggiornamento player
+                player.update();
             }
         }, 0, FRAME_TIME);
     }

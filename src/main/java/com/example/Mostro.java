@@ -1,6 +1,7 @@
 package com.example;
 
 import javafx.geometry.Point3D;
+import javafx.scene.effect.Light;
 import javafx.scene.image.Image;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -69,10 +70,12 @@ public class Mostro extends Box {
             }
         });
 
-        position = position.add(movementDirection.get().multiply(speed));
-        setTranslateX(position.getX());
-        setTranslateY(position.getY());
-        setTranslateZ(position.getZ());
+        if(attesaAttiva(50)) {
+            position = position.add(movementDirection.get().multiply(speed));
+            setTranslateX(position.getX());
+            setTranslateY(position.getY());
+            setTranslateZ(position.getZ());
+        }
     }
 
     public void colpisci(int danno) {
@@ -81,6 +84,12 @@ public class Mostro extends Box {
             player.setPuntiVita(vitaRimasta);
         else
             System.exit(0);
+    }
+
+    public boolean attesaAttiva(double disAttivavione){
+        Point3D positionPlayer = player.getPosition();
+        double dis = position.distance(positionPlayer);
+        return disAttivavione >= dis;
     }
 
     public void subisci(int danno) {
