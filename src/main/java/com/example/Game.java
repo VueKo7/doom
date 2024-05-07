@@ -5,9 +5,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.scene.*;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -40,11 +38,7 @@ public class Game extends Application {
         // primaryStage.setFullScreen(true);
         
         world = new Mappa("/mappa.txt");
-        Pane pane = new Pane(world);
-        Insets insets = new Insets(100);
-        pane.setPadding(insets);
-        pane.applyCss();
-        scene = new Scene(pane, WIDTH, HEIGHT, true, SceneAntialiasing.BALANCED);
+        scene = new Scene(world, WIDTH, HEIGHT, true, SceneAntialiasing.BALANCED);
         scene.setFill(Color.LIGHTBLUE);
 
         makePlayer(); //INIT player
@@ -97,13 +91,8 @@ public class Game extends Application {
             int y = (int)monster_spawnPoint.getY();
             int z = (int)monster_spawnPoint.getZ();
             Mostro mostro = new Mostro( //creo mostro nella posizione di spawn
-                player, 5,5,5, 0.2, 100, x, y, z);
+                player, 5,5,5, 0.4, 60, x, y, z);
             mostro.setId("3"); //identificativo per mostro
-            //aggiungo la possibilta del mostro di essere sparato
-            // mostro.setOnMouseClicked(event -> {
-            //     mostro.subisci(player.getWeapon().getDamage());
-                
-            // });
             //aggiungo il mostro alla lista
             mostri.add(mostro);
         });

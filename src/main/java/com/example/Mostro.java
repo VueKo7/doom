@@ -1,7 +1,6 @@
 package com.example;
 
 import javafx.geometry.Point3D;
-import javafx.scene.effect.Light;
 import javafx.scene.image.Image;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -94,6 +93,10 @@ public class Mostro extends Box {
 
     public void subisci(int danno) {
         puntiVita -= danno;
+        if(puntiVita <= 0) {
+            setTranslateY(0.7);
+            Sounds.playSound(Sounds.DEATH);
+        }
     }
 
     //Metodo setter di speed, obbliga l'inserimento di un valore compreso tra 0.1 e 10.

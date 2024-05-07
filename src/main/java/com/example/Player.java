@@ -4,7 +4,6 @@ import javafx.scene.PerspectiveCamera;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.shape.Box;
-import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 
 public class Player extends Box {
@@ -60,6 +59,7 @@ public class Player extends Box {
         updateMovement();       //aggiornamento player
         updateCamera();         //aggiornamento camera
         updateWeapon();         //aggiornamento arma
+        
     }
 
     private void updateMovement() {
@@ -125,6 +125,9 @@ public class Player extends Box {
 
         //FIRE WEAPON
         if(input.getKeyState(MouseButton.PRIMARY)) {
+
+            Sounds.playSound(Sounds.SHOOT);
+
             //scorro tutti i nemici
             Game.getWorld().getChildren().forEach(entity -> {
                 //filtro per mostri
@@ -146,7 +149,6 @@ public class Player extends Box {
                         if(mostro.getPosition().distance(proiettile) < 3) {
                             mostro.subisci(getWeapon().getDamage());
                             collision = true;
-                            System.out.println("BANG");
                         }
                     }
                 }
@@ -159,6 +161,8 @@ public class Player extends Box {
         //controllo che nella direzione richiesta non ci siano muri, solo alla richiesta di input
         if(input.getKeyState(KeyCode.W) || input.getKeyState(KeyCode.A) || input.getKeyState(KeyCode.S) || input.getKeyState(KeyCode.D)) {
             
+            // Sounds.playSound(Sounds.WALK);
+
             //iterazione per tutti gli elementi, muri e pavimenti
             Game.getWorld().getChildren().forEach(wall -> {
 
