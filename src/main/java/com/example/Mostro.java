@@ -5,7 +5,6 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 
-import java.util.concurrent.atomic.AtomicReference;
 
 public class Mostro extends Box {
 
@@ -31,59 +30,49 @@ public class Mostro extends Box {
     }
 
     public void update() {
-        Point3D playerPosition = player.getPosition();
-        Point3D directionToPlayer = playerPosition.subtract(position).normalize();           // Calcola la direzione dal mostro al giocatore
-        AtomicReference<Point3D> movementDirection = new AtomicReference<>(directionToPlayer.multiply(1));                    // Si muove verso il giocatore
-                            // Aggiorna la posizione del mostro
-
+        Point3D playerPosition = player.getPosition(); //ottengo la posizione del player
+        Point3D directionToPlayer = playerPosition.subtract(position).normalize().multiply(speed); // Calcola la direzione dal mostro al giocatore
+        //ottengo il vettore di spostamento
+        Vector3D vector3d = new Vector3D(directionToPlayer.getX(), directionToPlayer.getY(), directionToPlayer.getZ());
+        
         //CONTROLLO COLLISIONI
-
-        //iterazione per tutti gli elementi, muri e pavimenti
         Game.getWorld().getChildren().forEach(wall -> {
-
             //filtro per muri (id == 1)
             if(wall.getId().equals("1")) {
+                if(position.distance(wall.getTranslateX(), wall.getTranslateY(), wall.getTranslateZ()) < 10) {
+                    //controllo la collisione con un muro nella direzione richiesta
+                    boolean xCollision = collisionX((Box)wall, directionToPlayer.getX());
+                    boolean zCollision = collisionZ((Box)wall, directionToPlayer.getZ());
 
-                //controllo la collisione con un muro nella direzione richiesta
-                boolean xCollision = collisionX((Box)wall, movementDirection.get().getX());
-                boolean zCollision = collisionZ((Box)wall, movementDirection.get().getZ());
+                    //controllo che la collisione avvenga con l'oggetto per entrambe le coordinate
+                    if(zCollision && xCollision) {
+                        //controlla se alle sue spalle ha un ostacolo
+                        xCollision = collisionX((Box)wall, -directionToPlayer.getX());
+                        zCollision = collisionZ((Box)wall, -directionToPlayer.getZ());
 
-                //controllo che la collisione avvenga con l'oggetto per entrambe le coordinate
-                if(zCollision && xCollision) {
-                    //controlla se alle sue spalle ha un ostacolo
-                    xCollision = collisionX((Box)wall, -movementDirection.get().getX());
-                    zCollision = collisionZ((Box)wall, -movementDirection.get().getZ());
-
-                    //impone che tu NON abbia un'ostacolo a destra/sinistra per fermarti in X
-                    if(!xCollision){
-                        movementDirection.set(new Point3D(
-                            0,movementDirection.get().getY(), movementDirection.get().getZ()));
+                        //impone che tu NON abbia un'ostacolo intorno per fermarti
+                        if(!xCollision || !zCollision) {
+                            vector3d.setValues(0, 0, 0);
+                        }
                     }
 
-                    //impone che tu NON abbia un'ostacolo avanti/dietro per fermarti in Z
-                    if(!zCollision){
-                        movementDirection.set(new Point3D(
-                            movementDirection.get().getX(), movementDirection.get().getY(),0));
-                    }
                 }
             }
-        });
 
-        if(attesaAttiva(50)) {
-            position = position.add(movementDirection.get().multiply(speed));
-            setTranslateX(position.getX());
-            setTranslateY(position.getY());
-            setTranslateZ(position.getZ());
+        });
+        
+        //applico il vettore alla posizione
+        position = position.add(vector3d.getX(), vector3d.getY(), vector3d.getZ());
+        setTranslateX(position.getX());
+        setTranslateY(position.getY());
+        setTranslateZ(position.getZ());
+
+        //possibilità di danneggiare il player
+        if(position.distance(playerPosition) < 1) {
+            player.subisci(1);
         }
     }
 
-    public void colpisci(int danno) {
-        int vitaRimasta = player.getPuntiVita() - danno;
-        if (vitaRimasta > 0)
-            player.setPuntiVita(vitaRimasta);
-        else
-            System.exit(0);
-    }
 
     public boolean attesaAttiva(double disAttivavione){
         Point3D positionPlayer = player.getPosition();
