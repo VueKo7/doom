@@ -31,45 +31,46 @@ public class Mostro extends Box {
     }
 
     public void update() {
-        Point3D playerPosition = player.getPosition();
-        Point3D directionToPlayer = playerPosition.subtract(position).normalize();           // Calcola la direzione dal mostro al giocatore
-        AtomicReference<Point3D> movementDirection = new AtomicReference<>(directionToPlayer.multiply(1));                    // Si muove verso il giocatore
-                            // Aggiorna la posizione del mostro
+        if(attesaAttiva(30)) {
+            Point3D playerPosition = player.getPosition();
+            Point3D directionToPlayer = playerPosition.subtract(position).normalize();           // Calcola la direzione dal mostro al giocatore
+            AtomicReference<Point3D> movementDirection = new AtomicReference<>(directionToPlayer.multiply(1));                    // Si muove verso il giocatore
+                                // Aggiorna la posizione del mostro
 
-        //CONTROLLO COLLISIONI
+            //CONTROLLO COLLISIONI
 
-        //iterazione per tutti gli elementi, muri e pavimenti
-        Game.getWorld().getChildren().forEach(wall -> {
+            //iterazione per tutti gli elementi, muri e pavimenti
+            Game.getWorld().getChildren().forEach(wall -> {
 
-            //filtro per muri (id == 1)
-            if(wall.getId().equals("1")) {
+                //filtro per muri (id == 1)
+                if(wall.getId().equals("1")) {
+                    if(this.position.distance(wall.getTranslateX(), wall.getTranslateY(), wall.getTranslateZ()) < 20) {
+                        //controllo la collisione con un muro nella direzione richiesta
+                        boolean xCollision = collisionX((Box)wall, movementDirection.get().getX());
+                        boolean zCollision = collisionZ((Box)wall, movementDirection.get().getZ());
 
-                //controllo la collisione con un muro nella direzione richiesta
-                boolean xCollision = collisionX((Box)wall, movementDirection.get().getX());
-                boolean zCollision = collisionZ((Box)wall, movementDirection.get().getZ());
+                        //controllo che la collisione avvenga con l'oggetto per entrambe le coordinate
+                        if(zCollision && xCollision) {
+                            //controlla se alle sue spalle ha un ostacolo
+                            xCollision = collisionX((Box)wall, -movementDirection.get().getX());
+                            zCollision = collisionZ((Box)wall, -movementDirection.get().getZ());
 
-                //controllo che la collisione avvenga con l'oggetto per entrambe le coordinate
-                if(zCollision && xCollision) {
-                    //controlla se alle sue spalle ha un ostacolo
-                    xCollision = collisionX((Box)wall, -movementDirection.get().getX());
-                    zCollision = collisionZ((Box)wall, -movementDirection.get().getZ());
+                            //impone che tu NON abbia un'ostacolo a destra/sinistra per fermarti in X
+                            if(!xCollision){
+                                movementDirection.set(new Point3D(
+                                    0,movementDirection.get().getY(), movementDirection.get().getZ()));
+                            }
 
-                    //impone che tu NON abbia un'ostacolo a destra/sinistra per fermarti in X
-                    if(!xCollision){
-                        movementDirection.set(new Point3D(
-                            0,movementDirection.get().getY(), movementDirection.get().getZ()));
-                    }
-
-                    //impone che tu NON abbia un'ostacolo avanti/dietro per fermarti in Z
-                    if(!zCollision){
-                        movementDirection.set(new Point3D(
-                            movementDirection.get().getX(), movementDirection.get().getY(),0));
+                            //impone che tu NON abbia un'ostacolo avanti/dietro per fermarti in Z
+                            if(!zCollision){
+                                movementDirection.set(new Point3D(
+                                    movementDirection.get().getX(), movementDirection.get().getY(),0));
+                            }
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        if(attesaAttiva(50)) {
             position = position.add(movementDirection.get().multiply(speed));
             setTranslateX(position.getX());
             setTranslateY(position.getY());
@@ -81,8 +82,6 @@ public class Mostro extends Box {
         int vitaRimasta = player.getPuntiVita() - danno;
         if (vitaRimasta > 0)
             player.setPuntiVita(vitaRimasta);
-        else
-            System.exit(0);
     }
 
     public boolean attesaAttiva(double disAttivavione){

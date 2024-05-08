@@ -41,7 +41,7 @@ public class HandleInput {
         //FIRE WEAPON
         scene.setOnMouseClicked(event -> {
             if(event.getButton() == MouseButton.PRIMARY) { //filtro l'input
-                if(event.getClickCount() < 3) { //tolgo lo spam di click
+                if(event.getClickCount() == 1) { //tolgo lo spam di click
                     buffer[event.getButton().name().length() % buffer.length] = true;
                 }
             }

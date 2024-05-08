@@ -124,15 +124,31 @@ public class Player extends Box {
 
         //FIRE WEAPON
         if(input.getKeyState(MouseButton.PRIMARY)) {
+            Sounds.playSound(Sounds.SHOOT); //riproduco il suono dello sparo
+            fireWeapon(); //controllo per colpire il nemico
+            input.setKeyState(MouseButton.PRIMARY, false); //ripristino l'evento
+        }
 
-            Sounds.playSound(Sounds.SHOOT);
+        //controllo che nella direzione richiesta non ci siano muri, solo alla richiesta di input
+        if(input.getKeyState(KeyCode.W) 
+        || input.getKeyState(KeyCode.A) 
+        || input.getKeyState(KeyCode.S) 
+        || input.getKeyState(KeyCode.D)) {
+            checkCollision();
+        }
+        
+        //aggiorno la posizione
+        position = position.add(vector3d.getX(), vector3d.getY(), vector3d.getZ()); 
+    }
 
-            //scorro tutti i nemici
-            Game.getWorld().getChildren().forEach(entity -> {
-                //filtro per mostri
-                if(entity.getId().equals("3")) {
-                    Mostro mostro = (Mostro)entity;
-                    
+
+    private void fireWeapon() {
+        //scorro tutti i nemici
+        Game.getWorld().getChildren().forEach(entity -> {
+            //filtro per mostri
+            if(entity.getId().equals("3")) {
+                Mostro mostro = (Mostro)entity;
+                if(getPosition().distance(mostro.getPosition()) < 50) {
                     //ottengo la direzione nella quale il player è girato ed ottengo il vettore di spostamento
                     double angle = Math.toRadians(camera.getRotate());
                     Vector3D vector = new Vector3D(-Math.sin(angle), 0, Math.cos(angle));
@@ -151,23 +167,17 @@ public class Player extends Box {
                         }
                     }
                 }
-            });
-            input.setKeyState(MouseButton.PRIMARY, false);
-        }
+            }
+        });
+    }
 
 
-
-        //controllo che nella direzione richiesta non ci siano muri, solo alla richiesta di input
-        if(input.getKeyState(KeyCode.W) || input.getKeyState(KeyCode.A) || input.getKeyState(KeyCode.S) || input.getKeyState(KeyCode.D)) {
-            
-            // Sounds.playSound(Sounds.WALK);
-
-            //iterazione per tutti gli elementi, muri e pavimenti
-            Game.getWorld().getChildren().forEach(wall -> {
-
-                //filtro per muri (id == 1)
-                if(wall.getId().equals("1")) {
-                    
+    private void checkCollision() {
+        //iterazione per tutti gli elementi, muri e pavimenti
+        Game.getWorld().getChildren().forEach(wall -> {
+            //filtro per muri (id == 1)
+            if(wall.getId().equals("1")) {
+                if(this.position.distance(wall.getTranslateX(), wall.getTranslateY(), wall.getTranslateZ()) < 20) {
                     //controllo la collisione con un muro nella direzione richiesta
                     boolean xCollision = collisionX((Box)wall, vector3d.getX());
                     boolean zCollision = collisionZ((Box)wall, vector3d.getZ());
@@ -184,14 +194,10 @@ public class Player extends Box {
                         //impone che tu NON abbia un'ostacolo avanti/dietro per fermarti in Z
                         if(!zCollision) vector3d.z = 0;
                     }
-                } 
-            });
-        } //fine check collisioni
-        
-        //aggiorno la posizione
-        position = position.add(vector3d.getX(), vector3d.getY(), vector3d.getZ()); 
+                }
+            } 
+        });
     }
-
 
 
         //COLLISIONI

@@ -16,7 +16,7 @@ public class Game extends Application {
     }
 
     private Timer timer;
-    private static final int FPS = 60; // Frame per secondo
+    private static final int FPS = 30; // Frame per secondo
     private static final long FRAME_TIME = 1000 / FPS; // Tempo in millisecondi per frame
 
     private static final double WIDTH = 1280;
@@ -45,8 +45,8 @@ public class Game extends Application {
         makeMonsters(); //INIT monsters
 
         //aggiungo gli elementi dinamici al mondo
-        world.getChildren().addAll(player, weapon); //aggiungo il player
         world.getChildren().addAll(mostri); //aggiungo i mostri
+        world.getChildren().addAll(player, weapon); //aggiungo il player
 
         primaryStage.setTitle("DOOM");//zola consiglia di cambiare nome
         primaryStage.setScene(scene);
@@ -91,7 +91,7 @@ public class Game extends Application {
             int y = (int)monster_spawnPoint.getY();
             int z = (int)monster_spawnPoint.getZ();
             Mostro mostro = new Mostro( //creo mostro nella posizione di spawn
-                player, 5,5,5, 0.4, 60, x, y, z);
+                player, 5,5,5, 0.5, 60, x, y, z);
             mostro.setId("3"); //identificativo per mostro
             //aggiungo il mostro alla lista
             mostri.add(mostro);
