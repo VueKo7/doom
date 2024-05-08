@@ -16,7 +16,7 @@ public class Game extends Application {
     }
 
     private Timer timer;
-    private static final int FPS = 30; // Frame per secondo
+    private static final int FPS = 60; // Frame per secondo
     private static final long FRAME_TIME = 1000 / FPS; // Tempo in millisecondi per frame
 
     private static final double WIDTH = 1280;

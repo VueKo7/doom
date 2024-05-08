@@ -59,7 +59,6 @@ public class Player extends Box {
         updateMovement();       //aggiornamento player
         updateCamera();         //aggiornamento camera
         updateWeapon();         //aggiornamento arma
-        
     }
 
     private void updateMovement() {
