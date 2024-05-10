@@ -24,7 +24,6 @@ public class HandleInput {
 
         //ROTAZIONE VISUALE
         scene.setOnMouseMoved(event -> {
-            
             double mouseX = event.getSceneX();
             double centerX = scene.getWidth() / 2.0;
             

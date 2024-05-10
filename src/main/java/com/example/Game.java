@@ -5,8 +5,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javafx.application.Application;
-import javafx.scene.*;
-import javafx.scene.paint.Color;
+import javafx.scene.PerspectiveCamera;
+import javafx.scene.Scene;
+import javafx.scene.SceneAntialiasing;
 import javafx.stage.Stage;
 
 public class Game extends Application {
@@ -36,10 +37,8 @@ public class Game extends Application {
     @Override
     public void start(@SuppressWarnings("exports") Stage primaryStage) {
         // primaryStage.setFullScreen(true);
-        
         world = new Mappa("/mappa.txt");
         scene = new Scene(world, WIDTH, HEIGHT, true, SceneAntialiasing.BALANCED);
-        scene.setFill(Color.LIGHTBLUE);
 
         makePlayer(); //INIT player
         makeMonsters(); //INIT monsters
@@ -67,12 +66,13 @@ public class Game extends Application {
 
     //gameloop
     public void start() {
+        Sounds.playSound(Sounds.GAME);
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 //aggiornamento mostri
                 mostri.forEach(mostro -> {
-                    if(mostro.getPuntiVita() > 0 && mostro.attesaAttiva(40)) {
+                    if(mostro.getPuntiVita() > 0 && mostro.attesaAttiva(50)) {
                         mostro.update();
                     }
                 });
@@ -109,7 +109,7 @@ public class Game extends Application {
         weapon = new Weapon(15, 20);
         player = new Player(camera, input, weapon, 0, -5, 0);
         scene.setCamera(camera); //aggiungo la camera alla scena
-
+        
         player.setId("2"); //imposto un id per distinzione
         weapon.setId("2"); //imposto un id per distinzione
 

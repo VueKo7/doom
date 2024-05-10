@@ -81,11 +81,11 @@ public class Player extends Box {
 
     private void updateCamera() {
         //sposto la camera
-        camera.setTranslateX(position.getX());
-        camera.setTranslateY(position.getY());
-        camera.setTranslateZ(position.getZ());
+        this.camera.setTranslateX(position.getX());
+        this.camera.setTranslateY(position.getY());
+        this.camera.setTranslateZ(position.getZ());
         //imposto la rotazione
-        camera.setRotate(rotation);
+        this.camera.setRotate(rotation);
     }
     
 

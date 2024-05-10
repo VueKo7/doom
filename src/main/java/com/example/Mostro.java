@@ -21,14 +21,14 @@ public class Mostro extends Box {
         setPuntiVita(puntiVita);
         this.player = player;
 
-        // Creazione di un materiale con un colore specifico
         //impostazione texture
         PhongMaterial material = new PhongMaterial();
         material.setDiffuseMap(new Image(
-            getClass().getResourceAsStream("/textures/finalBoss.jpg")));                  // Colore del mostro (rosso)
-        setMaterial(material);                                  // Applica il materiale alla forma del mostro
+            getClass().getResourceAsStream("/textures/finalBoss.jpg")));
+        setMaterial(material); // Applica il materiale alla forma del mostro
     }
 
+    
     public void update() {
         Point3D playerPosition = player.getPosition(); //ottengo la posizione del player
         Point3D directionToPlayer = playerPosition.subtract(position).normalize().multiply(speed); // Calcola la direzione dal mostro al giocatore
@@ -39,7 +39,7 @@ public class Mostro extends Box {
         Game.getWorld().getChildren().forEach(wall -> {
             //filtro per muri (id == 1)
             if(wall.getId().equals("1")) {
-                if(position.distance(wall.getTranslateX(), wall.getTranslateY(), wall.getTranslateZ()) < 10) {
+                if(position.distance(wall.getTranslateX(), wall.getTranslateY(), wall.getTranslateZ()) < 20) {
                     //controllo la collisione con un muro nella direzione richiesta
                     boolean xCollision = collisionX((Box)wall, directionToPlayer.getX());
                     boolean zCollision = collisionZ((Box)wall, directionToPlayer.getZ());
