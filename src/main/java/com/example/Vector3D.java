@@ -1,3 +1,8 @@
+//Resconi Gabriele 4AI Vector3D.java
+//Adelfio Sulmina 4AI Vector3D.java
+//Spagnolo Claudio 4AI Vector3D.java
+
+
 package com.example;
 
 /**

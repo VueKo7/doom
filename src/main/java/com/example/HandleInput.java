@@ -1,3 +1,7 @@
+//Resconi Gabriele 4AI HandleInput.java
+//Adelfio Sulmina 4AI HandleInput.java
+//Spagnolo Claudio 4AI HandleInput.java
+
 package com.example;
 
 import javafx.scene.Scene;

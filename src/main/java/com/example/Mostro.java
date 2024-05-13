@@ -1,3 +1,8 @@
+//Resconi Gabriele 4AI Mostro.java
+//Adelfio Sulmina 4AI Mostro.java
+//Spagnolo Claudio 4AI Mostro.java
+
+
 package com.example;
 
 import javafx.geometry.Point3D;

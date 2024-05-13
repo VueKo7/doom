@@ -1,3 +1,7 @@
+//Resconi Gabriele 4AI Weapon.java
+//Adelfio Sulmina 4AI Weapon.java
+//Spagnolo Claudio 4AI Weapon.java
+
 package com.example;
 
 import javafx.geometry.Point3D;

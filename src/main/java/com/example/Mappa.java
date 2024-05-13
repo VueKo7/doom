@@ -1,3 +1,7 @@
+//Resconi Gabriele 4AI Mappa.java
+//Adelfio Sulmina 4AI Mappa.java
+//Spagnolo Claudio 4AI Mappa.java
+
 package com.example;
 
 

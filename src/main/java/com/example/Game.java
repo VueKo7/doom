@@ -1,3 +1,7 @@
+//Resconi Gabriele 4AI Game.java
+//Adelfio Sulmina 4AI Game.java
+//Spagnolo Claudio 4AI Game.java
+
 package com.example;
 
 import java.util.ArrayList;

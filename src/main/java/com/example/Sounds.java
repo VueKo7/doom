@@ -1,3 +1,7 @@
+//Resconi Gabriele 4AI Sounds.java
+//Adelfio Sulmina 4AI Sounds.java
+//Spagnolo Claudio 4AI Sounds.java
+
 package com.example;
 
 import javafx.scene.media.Media;

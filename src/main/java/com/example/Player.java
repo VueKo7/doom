@@ -1,3 +1,7 @@
+//Resconi Gabriele 4AI Player.java
+//Adelfio Sulmina 4AI Player.java
+//Spagnolo Claudio 4AI Player.java
+
 package com.example;
 
 import javafx.scene.PerspectiveCamera;
